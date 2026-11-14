@@ -1,7 +1,7 @@
 # Destructuring Field Guide
 
 Olcan Askar  
-Student number: 0000000000  
+Student number: 2024502180  
 MIS 233, Fall 2026
 
 Bonuses: none.

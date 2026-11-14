@@ -1,4 +1,4 @@
-// Olcan Askar, student number: 0000000000
+// Olcan Askar, student number: 2024502180
 // Destructuring in parameters and loops (forms 11 and 12). Run with `node js/params.mjs`.
 
 import { filmAt, films } from './data.mjs'
