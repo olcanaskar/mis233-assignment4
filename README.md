@@ -6,6 +6,12 @@ MIS 233, Fall 2026
 
 Bonuses: none.
 
+## Repository
+
+https://github.com/olcanaskar/mis233-assignment4
+
+The repository is private; instructor access will be granted on GitHub.
+
 ## Run
 
 ```
