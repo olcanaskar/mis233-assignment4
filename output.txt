@@ -1,0 +1,142 @@
+
+> destructuring-guide@0.0.0 all
+> npm run js && npm run ts
+
+
+> destructuring-guide@0.0.0 js
+> node js/arrays.mjs && node js/objects.mjs && node js/params.mjs && node js/pitfalls.mjs && tsx js/props.jsx
+
+--- arrays.mjs ---
+form 1: 1971 2026
+form 2: Tokyo Godfathers + 8 more
+form 3: Primetime <-> Tokyo Godfathers
+form 4: 2003 2026
+--- objects.mjs ---
+form 5: Tokyo Godfathers 2003
+form 6: Primetime 2026
+form 7: 0
+form 8: the-worst-person-in-the-world title,year,director,genres,rating
+form 9: Bong Joon-ho crime
+form 10: year 2019
+--- params.mjs ---
+form 11: { title: 'Waves', year: 2019, rating: 0 }
+form 11 empty: { title: 'Untitled', year: 0, rating: 0 }
+form 11b: Tokyo Godfathers / Primetime
+form 12: tokyo-godfathers => Tokyo Godfathers
+form 12: primetime-2026 => Primetime
+form 12: memories-of-murder => Memories of Murder
+form 12: the-worst-person-in-the-world => The Worst Person in the World
+form 12: the-lobster => The Lobster
+form 12: coyote-vs-acme => Coyote vs. Acme
+form 12: happy-together-1997 => Happy Together
+form 12: the-working-class-goes-to-heaven => The Working Class Goes to Heaven
+form 12: punch-drunk-love => Punch-Drunk Love
+form 12: waves-2019 => Waves
+form 12 map: Tokyo Godfathers 2003
+form 12 map: Primetime 2026
+form 12 map: Memories of Murder 2003
+--- pitfalls.mjs ---
+pitfall 1 undefined: TypeError - Cannot destructure property 'title' of 'undefined' as it is undefined.
+pitfall 1 null: TypeError - Cannot destructure property 'title' of 'null' as it is null.
+pitfall 2: null (the default did not run)
+pitfall 3: SyntaxError - Unexpected token '='
+pitfall 3 fixed: Tokyo Godfathers
+pitfall 4: Someone Else (the original changed)
+pitfall 5: Tokyo Godfathers Primetime | Primetime Tokyo Godfathers | Tokyo Godfathers Primetime
+--- props.jsx ---
+P1 A: <article><h2>Tokyo Godfathers</h2>same text</article>
+P1 B: <article><h2>Tokyo Godfathers</h2>same text</article>
+P2 tag: <article><h2>Primetime</h2>Primetime note</article>
+P2 prop: <article><h2>Primetime</h2>Primetime note</article>
+P2 both: <article><h2>Primetime</h2>from tag</article>
+P3 string: "<article><h2>Tokyo Godfathers</h2>a review</article>"
+P3 number: "<article><h2>Tokyo Godfathers</h2>42</article>"
+P3 one element: "<article><h2>Tokyo Godfathers</h2><strong>important</strong></article>"
+P3 several elements: "<article><h2>Tokyo Godfathers</h2><span>A</span><span>B</span></article>"
+P3 undefined: "<article><h2>Tokyo Godfathers</h2></article>"
+P3 null: "<article><h2>Tokyo Godfathers</h2></article>"
+P3 false: "<article><h2>Tokyo Godfathers</h2></article>"
+Functions are not valid as a React child. This may happen if you return children instead of <children /> from render. Or maybe you meant to call this function rather than return it.
+P3 function: "<article><h2>Tokyo Godfathers</h2></article>"
+P4 rest: <section class="card" id="tokyo"><h2>Tokyo Godfathers</h2>text</section>
+P4 explicit wins: <section class="explicit"><h2>Tokyo Godfathers</h2>x</section>
+P4 rest wins: <section class="from-rest"><h2>Tokyo Godfathers</h2>x</section>
+P5 slots: <article><header><span>Header</span></header><h2>The Worst Person in the World</h2><footer><span>Footer</span></footer></article>
+P5 children: <article><h2>The Worst Person in the World</h2><span>Header</span><span>Footer</span></article>
+P6 default: <span>0</span>
+P6 undefined: <span>0</span>
+P6 null: <span>no rating</span>
+P7 button: <button type="button" disabled="">Save</button>
+KeyProbe: `key` is not a prop. Trying to access it will result in `undefined` being returned. If you need to access the same value within the child component, you should pass it as a different prop. (https://react.dev/link/special-props)
+P7 key probe: <span>undefined</span>
+
+> destructuring-guide@0.0.0 ts
+> tsx ts/arrays.ts && tsx ts/objects.ts && tsx ts/params.ts && tsx ts/types.ts && tsx ts/props.tsx
+
+--- arrays.ts ---
+form 1: 1971 2026
+form 2: Tokyo Godfathers + 8 more
+form 3: Primetime <-> Tokyo Godfathers
+form 4: 2003 2026
+--- objects.ts ---
+form 5: Tokyo Godfathers 2003
+form 6: Primetime 2026
+form 7: 0
+form 8: the-worst-person-in-the-world title,year,director,genres,rating
+form 9: Bong Joon-ho crime
+form 10: year 2019
+--- params.ts ---
+form 11: { title: 'Waves', year: 2019, rating: 0 }
+form 11 empty: { title: 'Untitled', year: 0, rating: 0 }
+form 11b: Tokyo Godfathers / Primetime
+form 12: tokyo-godfathers => Tokyo Godfathers
+form 12: primetime-2026 => Primetime
+form 12: memories-of-murder => Memories of Murder
+form 12: the-worst-person-in-the-world => The Worst Person in the World
+form 12: the-lobster => The Lobster
+form 12: coyote-vs-acme => Coyote vs. Acme
+form 12: happy-together-1997 => Happy Together
+form 12: the-working-class-goes-to-heaven => The Working Class Goes to Heaven
+form 12: punch-drunk-love => Punch-Drunk Love
+form 12: waves-2019 => Waves
+form 12 map: Tokyo Godfathers 2003
+form 12 map: Primetime 2026
+form 12 map: Memories of Murder 2003
+--- types.ts ---
+T1 rename: Tokyo Godfathers
+T1 typed: Tokyo Godfathers
+T2 tuple: 2003 Tokyo Godfathers
+T2 as const: 2003 2026
+T3 first: Tokyo Godfathers
+T3 safe: Tokyo Godfathers
+T3 default: Tokyo Godfathers
+T4 optional: 4.5
+T4 default: 4.5
+T4 empty: undefined 0
+T4 null: null
+T5 suppressed: 4
+T5 fixed: 4
+--- props.tsx ---
+P1 A: <article><h2>Tokyo Godfathers</h2>same text</article>
+P1 B: <article><h2>Tokyo Godfathers</h2>same text</article>
+P2 tag: <article><h2>Primetime</h2>Primetime note</article>
+P2 prop: <article><h2>Primetime</h2>Primetime note</article>
+P3 string: "<article><h2>Tokyo Godfathers</h2>a review</article>"
+P3 number: "<article><h2>Tokyo Godfathers</h2>42</article>"
+P3 one element: "<article><h2>Tokyo Godfathers</h2><strong>important</strong></article>"
+P3 several elements: "<article><h2>Tokyo Godfathers</h2><span>A</span><span>B</span></article>"
+P3 undefined: "<article><h2>Tokyo Godfathers</h2></article>"
+P3 null: "<article><h2>Tokyo Godfathers</h2></article>"
+P3 false: "<article><h2>Tokyo Godfathers</h2></article>"
+Functions are not valid as a React child. This may happen if you return functionChild instead of <functionChild /> from render. Or maybe you meant to call this function rather than return it.
+P3 function: "<article><h2>Tokyo Godfathers</h2></article>"
+P4 rest: <section class="card" id="tokyo"><h2>Tokyo Godfathers</h2>text</section>
+P4 explicit wins: <section class="explicit"><h2>Tokyo Godfathers</h2>x</section>
+P4 rest wins: <section class="from-rest"><h2>Tokyo Godfathers</h2>x</section>
+P5 slots: <article><header><span>Header</span></header><h2>The Worst Person in the World</h2><footer><span>Footer</span></footer></article>
+P5 children: <article><h2>The Worst Person in the World</h2><span>Header</span><span>Footer</span></article>
+P6 default: <span>0</span>
+P6 undefined: <span>0</span>
+P6 null: <span>no rating</span>
+P7 PropsWithChildren: <article><h2>Tokyo Godfathers</h2>child</article>
+P7 ComponentProps button: <button type="button" disabled="">Save</button>
