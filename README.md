@@ -10,7 +10,7 @@ Bonuses: none.
 
 https://github.com/olcanaskar/mis233-assignment4
 
-The repository is private; instructor access will be granted on GitHub.
+The repository is public.
 
 ## Run
 
