@@ -4,7 +4,7 @@ Olcan Askar
 Student number: 2024502180  
 MIS 233, Fall 2026
 
-Bonuses: none.
+Bonuses claimed: Bonus 3: Real code.
 
 ## Repository
 
@@ -389,6 +389,128 @@ The compiler rejects:
 | 11. parameter pattern | `function f({ a = 1 } = {})` | type after the pattern | Required fields make `= {}` invalid. |
 | 12. loop pattern | `for (const [k, v] of Object.entries(o))` | tuple type for `Map` | `Map` infers a union without it. |
 | props and children | `<Card>text</Card>` | `children?: ReactNode` | Function child gives `TS2322`; duplicate children give `TS2710`. |
+
+## Bonus 3: Real code
+
+I used the TypeScript compiler installed in `node_modules` (version 5.8.3) and
+MUI's open-source Button component. The TypeScript line numbers are from the
+installed file; the MUI link is pinned to commit `9f8fe58`.
+
+### 1. `node_modules/typescript/lib/typescript.js:4872` — skip and defaults (forms 2 and 4)
+
+```js
+const [, major, minor = "0", patch = "0", prerelease = "", build2 = ""] = match;
+```
+
+`match` comes from `versionRegExp.exec(text)`. Index 0 is the whole match, so
+the leading comma skips it. Without destructuring:
+
+```js
+const major = match[1];
+const minor = match[2] === undefined ? "0" : match[2];
+const patch = match[3] === undefined ? "0" : match[3];
+const prerelease = match[4] === undefined ? "" : match[4];
+const build2 = match[5] === undefined ? "" : match[5];
+```
+
+The destructured line is shorter and keeps each default next to its name.
+
+### 2. `node_modules/typescript/lib/typescript.js:4830` — rename (forms 5 and 6)
+
+```js
+const { major, minor, patch, prerelease, build: build2 } = result;
+```
+
+Without destructuring:
+
+```js
+const major = result.major;
+const minor = result.minor;
+const patch = result.patch;
+const prerelease = result.prerelease;
+const build2 = result.build;
+```
+
+`build` is renamed to `build2`, probably to avoid a name clash. This is form 6
+in real code.
+
+### 3. `node_modules/typescript/lib/typescript.js:188380` — rest (form 8)
+
+```js
+const { lazyConfiguredProjectsFromExternalProject: _, ...userPreferences } = preferences;
+```
+
+Without destructuring:
+
+```js
+const userPreferences = { ...preferences };
+delete userPreferences.lazyConfiguredProjectsFromExternalProject;
+```
+
+The rest pattern removes one internal field and keeps the rest in a new object.
+The `_` name says "I do not use this value".
+
+### 4. `node_modules/typescript/lib/typescript.js:136407` — loop (form 12)
+
+```js
+for (const [key, value] of lineCounts.entries()) {
+  reportCountStatistic("Lines of " + key, value);
+}
+```
+
+Without destructuring:
+
+```js
+for (const entry of lineCounts.entries()) {
+  const key = entry[0];
+  const value = entry[1];
+  reportCountStatistic("Lines of " + key, value);
+}
+```
+
+The destructured version names the two parts immediately.
+
+### 5. MUI Button, `Button.js:507-527` — React props and children (forms 5, 6, 7, 8 and 11)
+
+Source:
+[`packages/mui-material/src/Button/Button.js`](https://github.com/mui/material-ui/blob/9f8fe586afb3d81f4108a96f3b943a0990ee3f08/packages/mui-material/src/Button/Button.js#L507-L527)
+
+```jsx
+const {
+  children,
+  color = 'primary',
+  component = 'button',
+  // ... about 16 more props ...
+  variant = 'text',
+  ...other
+} = props;
+```
+
+This is a real React component. `props` is the one object the component receives.
+`children` is one field of that object, not a separate argument. `color`,
+`component`, `variant` and the rest are props. `...other` keeps the props that
+were not named; later the component spreads them onto `<ButtonRoot {...other}>`,
+while `children` is rendered explicitly at line 608.
+
+Without destructuring it would start like this:
+
+```js
+const children = props.children;
+const color = props.color === undefined ? 'primary' : props.color;
+const component = props.component === undefined ? 'button' : props.component;
+// ... about 16 more lines ...
+const other = { ...props };
+delete other.children;
+delete other.color;
+// ...
+```
+
+**Where it is worse:** this is my example of destructuring making code harder to
+read. The block has about 20 names, several defaults, a rest element, and a
+`children` field mixed in. A reader has to scan the whole block to know what is
+forwarded. MUI probably does it to apply defaults and filter props, but for a
+component this large I would prefer a few targeted reads and an explicit `other`
+object.
 
 ## My own log
 
