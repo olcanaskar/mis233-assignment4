@@ -4,7 +4,7 @@
 
 
 > destructuring-guide@0.0.0 js
-> node js/arrays.mjs && node js/objects.mjs && node js/params.mjs && node js/pitfalls.mjs && tsx js/props.jsx
+> node js/arrays.mjs && node js/objects.mjs && node js/params.mjs && node js/pitfalls.mjs && node js/depth.mjs && tsx js/props.jsx
 
 --- arrays.mjs ---
 form 1: 1971 2026
@@ -43,6 +43,14 @@ pitfall 3: SyntaxError - Unexpected token '='
 pitfall 3 fixed: Tokyo Godfathers
 pitfall 4: Someone Else (the original changed)
 pitfall 5: Tokyo Godfathers Primetime | Primetime Tokyo Godfathers | Tokyo Godfathers Primetime
+--- depth.mjs ---
+depth string: F i
+depth set: drama comedy
+depth map: Tokyo Godfathers 2003 | Primetime 2026
+depth generator: Tokyo Godfathers 2003
+depth custom: Memories of Murder 2003
+depth rest: 1 2,3
+depth object: TypeError - plainObject is not iterable
 --- props.jsx ---
 P1 A: <article><h2>Tokyo Godfathers</h2>same text</article>
 P1 B: <article><h2>Tokyo Godfathers</h2>same text</article>

@@ -4,7 +4,7 @@ Olcan Askar
 Student number: 2024502180  
 MIS 233, Fall 2026
 
-Bonuses claimed: Bonus 3: Real code.
+Bonuses claimed: Bonus 2: Depth, Bonus 3: Real code.
 
 ## Repository
 
@@ -389,6 +389,44 @@ The compiler rejects:
 | 11. parameter pattern | `function f({ a = 1 } = {})` | type after the pattern | Required fields make `= {}` invalid. |
 | 12. loop pattern | `for (const [k, v] of Object.entries(o))` | tuple type for `Map` | `Map` infers a union without it. |
 | props and children | `<Card>text</Card>` | `children?: ReactNode` | Function child gives `TS2322`; duplicate children give `TS2710`. |
+
+## Bonus 2: Depth
+
+The handout asks what an array pattern really calls on the value. The answer is
+the iterator protocol, not array indexes. I put the experiments in
+`js/depth.mjs` and added that file to `npm run js`.
+
+**Output from `node js/depth.mjs`:**
+
+```
+depth string: F i
+depth set: drama comedy
+depth map: Tokyo Godfathers 2003 | Primetime 2026
+depth generator: Tokyo Godfathers 2003
+depth custom: Memories of Murder 2003
+depth rest: 1 2,3
+depth object: TypeError - plainObject is not iterable
+```
+
+What each line shows:
+
+- A string is iterable character by character, so `'Film'` gives `F` and `i`.
+- A `Set` is iterable; duplicates are removed before iteration, so the first
+  two values are `drama` and `comedy`.
+- A `Map` yields `[key, value]` pairs, so the nested pattern
+  `[[firstTitle, firstYear], [secondTitle, secondYear]]` works.
+- A generator is iterable without being an array; the pattern calls `next()`
+  and takes the yielded values.
+- The custom object in `js/depth.mjs` has only `[Symbol.iterator]` and
+  `next()`: no `length`, no `[0]`. The array pattern still works.
+- `...rest` keeps pulling values from the iterator until it is done.
+- A plain object has no `Symbol.iterator`, so the pattern throws `TypeError`.
+
+What I learned: `const [a, b] = value` does not mean "read `value[0]` and
+`value[1]`". It means "get an iterator from `value`, call `next()` twice, and
+bind the results". That is why strings, `Set`, `Map`, generators and custom
+iterables work, and plain objects do not. The same protocol powers `for...of`,
+spread and `Array.from`.
 
 ## Bonus 3: Real code
 
