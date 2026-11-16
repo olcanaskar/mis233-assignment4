@@ -4,7 +4,7 @@ Olcan Askar
 Student number: 2024502180  
 MIS 233, Fall 2026
 
-Bonuses claimed: Bonus 2: Depth, Bonus 3: Real code.
+Bonuses claimed: Bonus 1: LaTeX, Bonus 2: Depth, Bonus 3: Real code.
 
 ## Repository
 
@@ -389,6 +389,25 @@ The compiler rejects:
 | 11. parameter pattern | `function f({ a = 1 } = {})` | type after the pattern | Required fields make `= {}` invalid. |
 | 12. loop pattern | `for (const [k, v] of Object.entries(o))` | tuple type for `Map` | `Map` infers a union without it. |
 | props and children | `<Card>text</Card>` | `children?: ReactNode` | Function child gives `TS2322`; duplicate children give `TS2710`. |
+
+## Bonus 1: LaTeX
+
+The guide is also in `latex/field-guide.tex` with `latex/field-guide.pdf`. I
+generated the first draft with Pandoc 3.14 and compiled it with Tectonic 0.17.0.
+The final 13-page PDF has a title page, a table of contents, code listings and
+real tables. Its log has 0 errors and 0 overfull hbox warnings.
+
+Commands used:
+
+```
+pandoc README.md -o latex/field-guide.tex --standalone --toc --listings --shift-heading-level-by=-1 --metadata author="Olcan Askar" --metadata date="November 2026" -V geometry:margin=2.5cm -V fontsize=11pt -V colorlinks=true -V linkcolor=blue -V urlcolor=blue
+python latex/fix_inline.py
+tectonic latex/field-guide.tex -o latex
+```
+
+`fix_inline.py` converts Pandoc's inline `\lstinline` snippets into breakable
+`\texttt`, enables `breaklines` in listings, and widens the page. The final
+`.tex` also has the title-page edit and uses `\raggedright`.
 
 ## Bonus 2: Depth
 

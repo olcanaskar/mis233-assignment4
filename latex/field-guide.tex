@@ -1,0 +1,933 @@
+﻿% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+\documentclass[
+  11pt,
+]{article}
+\usepackage{xcolor}
+\usepackage[margin=2cm]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{listings}
+\newcommand{\passthrough}[1]{#1}
+\lstset{defaultdialect=[5.3]Lua}
+\lstset{defaultdialect=[x86masm]Assembler}
+\lstset{
+  breaklines=true,
+  breakatwhitespace=false,
+  columns=fullflexible,
+  basicstyle=\ttfamily\small,
+  keepspaces=true,
+  showstringspaces=false,
+  frame=single,
+  postbreak=\mbox{\textcolor{gray}{$\hookrightarrow$}\space}
+}
+\lstset{
+  breaklines=true,
+  breakatwhitespace=false,
+  columns=fullflexible,
+  basicstyle=\ttfamily\small,
+  keepspaces=true,
+  showstringspaces=false,
+  frame=single,
+  postbreak=\mbox{\textcolor{gray}{$\hookrightarrow$}\space}
+}
+\usepackage{longtable,booktabs,array}
+\usepackage{caption}
+\captionsetup[table]{skip=6pt}
+\newcounter{none} % for unnumbered tables
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+\setlength{\emergencystretch}{8em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+% fallback for those not using the hyperref driver hyperxmp:
+\makeatletter
+\@ifundefined{xmpquote}{\newcommand{\xmpquote}[1]{#1}}{}
+\makeatother
+\hypersetup{
+  pdftitle={Destructuring Field Guide},
+  pdfauthor={Olcan Askar},
+  colorlinks=true,
+  linkcolor={blue},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={blue},
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Destructuring Field Guide}
+\author{Olcan Askar\\Student number: 2024502180\\MIS 233, Fall 2026}
+\date{November 2026}
+
+\begin{document}
+\raggedright
+\raggedright
+\maketitle
+\thispagestyle{empty}
+\newpage
+
+{
+\setcounter{tocdepth}{3}
+\tableofcontents
+}
+\newpage
+
+\section{Repository}\label{repository}
+
+https://github.com/olcanaskar/mis233-assignment4
+
+The repository is public.
+
+\section{Run}\label{run}
+
+\begin{lstlisting}
+npm install
+npm run all
+npm run check
+\end{lstlisting}
+
+\texttt{output.txt} is the real output of
+\texttt{npm run all}.
+
+\section{Data}\label{data}
+
+My last ten films on Letterboxd
+(\texttt{letterboxd.com/olcan}), newest first:
+
+Tokyo Godfathers (2003, 4), Primetime (2026, 3.5), Memories of Murder
+(2003, 4.5), The Worst Person in the World (2021, 4), The Lobster (2015,
+3.5), Coyote vs.~Acme (2026, 3.5), Happy Together (1997, 3), The Working
+Class Goes to Heaven (1971, 3), Punch-Drunk Love (2002, 3.5), Waves
+(2019, 4).
+
+The list is in \texttt{js/data.mjs} and
+\texttt{ts/data.ts}. The TypeScript data only has
+\texttt{id}, \texttt{title},
+\texttt{year}, \texttt{director.name},
+\texttt{genres} and \texttt{rating}.
+
+\section{Field guide}\label{field-guide}
+
+All outputs are from \texttt{output.txt}.
+
+\subsection{\texorpdfstring{Form 1: values by position,
+\texttt{const\ {[}x,\ y{]}\ =\ f()}}{Form 1: values by position, const {[}x, y{]} = f()}}\label{form-1-values-by-position-const-x-y-f}
+
+\textbf{Syntax:}
+\texttt{const [oldest, newest] = yearRange(films)}
+
+\textbf{Example} (\texttt{js/arrays.mjs}):
+\texttt{yearRange} returns
+\texttt{[Math.min(...years), Math.max(...years)]}, then
+I destructure it.
+
+\textbf{Output:} \texttt{form 1: 1971 2026}
+
+\textbf{Use it when:} a function returns several values in a fixed
+order.
+
+\textbf{Watch out:} order is the only link. A missing item is
+\texttt{undefined}. In TS I needed
+\texttt{: [number, number]}; otherwise the positions
+are \texttt{number \textbar{} undefined}.
+
+\subsection{Form 2: skip an item and collect the
+rest}\label{form-2-skip-an-item-and-collect-the-rest}
+
+\textbf{Syntax:}
+\texttt{const [, second, ...others] = ranked}
+
+\textbf{Example} (\texttt{js/arrays.mjs}): I sort by
+rating descending, skip the first film, and take the second plus the
+rest.
+
+\textbf{Output:}
+\texttt{form 2: Tokyo Godfathers + 8 more}
+
+\textbf{Use it when:} the first item is not important but the rest are.
+
+\textbf{Watch out:} the comma matters;
+\texttt{[second, ...others]} would take the first film.
+In TS \texttt{second} is
+\texttt{Film \textbar{} undefined}, so I used
+\texttt{second?.title}.
+
+\subsection{Form 3: swap two variables}\label{form-3-swap-two-variables}
+
+\textbf{Syntax:} \texttt{[a, b] = [b, a]}
+
+\textbf{Example} (\texttt{js/arrays.mjs}):
+\texttt{let firstPick = ...; let secondPick = ...; [firstPick, secondPick] = [secondPick, firstPick]}
+
+\textbf{Output:}
+\texttt{form 3: Primetime \textless{}-\textgreater{} Tokyo Godfathers}
+
+\textbf{Use it when:} two values need to change places.
+
+\textbf{Watch out:} use \texttt{let}, not
+\texttt{const}. The swap line starts with
+\texttt{;} because the previous line ends with
+\texttt{]}. In TS I checked that both films exist
+first.
+
+\subsection{Form 4: default values in an
+array}\label{form-4-default-values-in-an-array}
+
+\textbf{Syntax:}
+\texttt{const [firstYear = 2003, secondYear = 2026] = emptyYears}
+
+\textbf{Example} (\texttt{js/arrays.mjs}):
+\texttt{const emptyYears = []} then the line above.
+
+\textbf{Output:} \texttt{form 4: 2003 2026}
+
+\textbf{Use it when:} an item may be missing and there is a fallback.
+
+\textbf{Watch out:} the default only runs for
+\texttt{undefined}, not \texttt{null}.
+
+\subsection{Form 5: properties by name}\label{form-5-properties-by-name}
+
+\textbf{Syntax:}
+\texttt{const \{ title, year \} = filmAt(0)}
+
+\textbf{Example} (\texttt{js/objects.mjs}):
+\texttt{const \{ title, year \} = filmAt(0)}
+
+\textbf{Output:} \texttt{form 5: Tokyo Godfathers 2003}
+
+\textbf{Use it when:} the property names are the names you want.
+
+\textbf{Watch out:} a typo gives \texttt{undefined} in
+JS. If the value is \texttt{undefined} or
+\texttt{null}, the line throws.
+
+\subsection{Form 6: rename while you take
+it}\label{form-6-rename-while-you-take-it}
+
+\textbf{Syntax:}
+\texttt{const \{ title: filmTitle, year: releaseYear \} = filmAt(1)}
+
+\textbf{Example} (\texttt{js/objects.mjs}):
+\texttt{const \{ title: filmTitle, year: releaseYear \} = filmAt(1)}
+
+\textbf{Output:} \texttt{form 6: Primetime 2026}
+
+\textbf{Use it when:} the property name clashes or is not clear.
+
+\textbf{Watch out:} left of the colon is the property; right is the new
+variable. After this line there is no \texttt{title} or
+\texttt{year} variable. In TS,
+\texttt{\{ title: string \}} inside a pattern is also a
+rename, not a type.
+
+\subsection{Form 7: default values in an
+object}\label{form-7-default-values-in-an-object}
+
+\textbf{Syntax:}
+\texttt{const \{ rating = 0 \} = unrated}
+
+\textbf{Example} (\texttt{js/objects.mjs}):
+\texttt{const unrated = \{ ...filmAt(0), rating: undefined \}}
+
+\textbf{Output:} \texttt{form 7: 0}
+
+\textbf{Use it when:} a field is optional.
+
+\textbf{Watch out:} \texttt{null} does not trigger the
+default.
+
+\subsection{Form 8: rest in an object}\label{form-8-rest-in-an-object}
+
+\textbf{Syntax:}
+\texttt{const \{ id, ...filmWithoutId \} = filmAt(3)}
+
+\textbf{Example} (\texttt{js/objects.mjs}):
+\texttt{const \{ id, ...filmWithoutId \} = filmAt(3)}
+
+\textbf{Output:}
+\texttt{form 8: the-worst-person-in-the-world title,year,director,genres,rating}
+
+\textbf{Use it when:} one property must be removed.
+
+\textbf{Watch out:} rest must be last, and the copy is shallow. Nested
+objects are still shared.
+
+\subsection{Form 9: nested patterns}\label{form-9-nested-patterns}
+
+\textbf{Syntax:}
+\texttt{const \{ director: \{ name: directorName \}, genres: [mainGenre] \} = filmAt(2)}
+
+\textbf{Example} (\texttt{js/objects.mjs}): the line
+above.
+
+\textbf{Output:} \texttt{form 9: Bong Joon-ho crime}
+
+\textbf{Use it when:} you only need a deep piece of an object.
+
+\textbf{Watch out:} every level must exist.
+\texttt{mainGenre} can be
+\texttt{undefined} if the array is empty; TS types it
+as \texttt{string \textbar{} undefined}.
+
+\subsection{Form 10: a computed key}\label{form-10-a-computed-key}
+
+\textbf{Syntax:}
+\texttt{const key = 'year'; const \{ [key]: value \} = filmAt(9)}
+
+\textbf{Example} (\texttt{js/objects.mjs}): the line
+above.
+
+\textbf{Output:} \texttt{form 10: year 2019}
+
+\textbf{Use it when:} the property name is chosen at runtime.
+
+\textbf{Watch out:} the brackets are required. In TS a plain
+\texttt{string} key gives
+\texttt{TS2537}; use a literal or
+\texttt{keyof Film}.
+
+\subsection{Form 11: patterns in
+parameters}\label{form-11-patterns-in-parameters}
+
+\textbf{Syntax:}
+\texttt{function createFilm(\{ title = 'Untitled', year = 0, rating = 0 \} = \{\})}
+
+\textbf{Example} (\texttt{js/params.mjs}):
+\texttt{createFilm(\{ title: 'Waves', year: 2019 \})}
+and \texttt{createFilm()}.
+
+\textbf{Output:}
+\texttt{form 11: \{ title: 'Waves', year: 2019, rating: 0 \}}
+and
+\texttt{form 11 empty: \{ title: 'Untitled', year: 0, rating: 0 \}}
+
+\textbf{Use it when:} a function takes an options object with defaults.
+
+\textbf{Watch out:} \texttt{= \{\}} is a separate
+default. In TS the type goes after the pattern; if the type has required
+fields, \texttt{= \{\}} does not compile.
+\texttt{null} throws.
+
+\textbf{Form 11b:}
+\texttt{describePair([first, second])} with two films
+gives \texttt{form 11b: Tokyo Godfathers / Primetime}.
+
+\subsection{Form 12: patterns in loops}\label{form-12-patterns-in-loops}
+
+\textbf{Syntax:}
+\texttt{for (const [id, film] of Object.entries(byId))}
+
+\textbf{Example} (\texttt{js/params.mjs}): I build
+\texttt{byId} with
+\texttt{Object.fromEntries}, then loop. I also loop
+over a \texttt{Map} with
+\texttt{[title, year]}.
+
+\textbf{Output:}
+\texttt{form 12: tokyo-godfathers =\textgreater{} Tokyo Godfathers}
+and \texttt{form 12 map: Tokyo Godfathers 2003} (full
+list in \texttt{output.txt}).
+
+\textbf{Use it when:} you need both key and value in a loop.
+
+\textbf{Watch out:} \texttt{Object.entries} gives a
+string key. In TS a \texttt{Map} needs the tuple type
+\texttt{[string, number]}.
+\texttt{for...in} gives keys only.
+
+\section{Pitfalls}\label{pitfalls}
+
+\subsection{\texorpdfstring{1. Destructuring \texttt{undefined} or
+\texttt{null}}{1. Destructuring undefined or null}}\label{destructuring-undefined-or-null}
+
+\texttt{const \{ title \} = undefined} gives
+\texttt{TypeError: Cannot destructure property 'title' of 'undefined' as it is undefined.}
+\texttt{null} gives the same error. \textbf{Why:} they
+have no properties.
+
+\subsection{\texorpdfstring{2. Default is only for
+\texttt{undefined}}{2. Default is only for undefined}}\label{default-is-only-for-undefined}
+
+\texttt{const \{ rating = 5 \} = \{ rating: null \}}
+prints \texttt{null}. \textbf{Why:}
+\texttt{null} is a real value, not a missing one.
+
+\subsection{\texorpdfstring{3. Assignment without
+\texttt{const}/\texttt{let} needs
+parentheses}{3. Assignment without const/let needs parentheses}}\label{assignment-without-constlet-needs-parentheses}
+
+\texttt{\{ title \} = film} gives
+\texttt{SyntaxError: Unexpected token '='};
+\texttt{(\{ title \} = film)} works. \textbf{Why:} a
+line starting with \texttt{\{} is read as a block.
+
+\subsection{4. Destructuring is a shallow
+copy}\label{destructuring-is-a-shallow-copy}
+
+\texttt{const \{ director \} = film; director.name = 'X'}
+changes the original film too. \textbf{Why:} the nested object is shared
+by reference.
+
+\subsection{5. Array order matters, object order does
+not}\label{array-order-matters-object-order-does-not}
+
+\texttt{[a, b] = ['A', 'B']} changes if you swap the
+array. \texttt{\{ first, second \}} from
+\texttt{\{ second: 'B', first: 'A' \}} still gives the
+same values. \textbf{Why:} arrays use position, objects use names.
+
+\section{TypeScript topics}\label{typescript-topics}
+
+\subsection{\texorpdfstring{T1: \texttt{\{\ a:\ string\ \}} is a rename,
+not a
+type}{T1: \{ a: string \} is a rename, not a type}}\label{t1-a-string-is-a-rename-not-a-type}
+
+\texttt{const \{ title: string \} = filmAt(0)} prints
+\texttt{T1 rename: Tokyo Godfathers}. It creates a
+variable named \texttt{string}. The type goes after the
+pattern:
+\texttt{const \{ title: filmTitle \}: Film = filmAt(0)}.
+
+\subsection{\texorpdfstring{T2: tuple and
+\texttt{as\ const}}{T2: tuple and as const}}\label{t2-tuple-and-as-const}
+
+\texttt{const pair: [number, string] = [2003, 'Tokyo Godfathers']}
+prints \texttt{T2 tuple: 2003 Tokyo Godfathers}.
+\texttt{const years = [2003, 2026, 1997] as const}
+prints \texttt{T2 as const: 2003 2026}. Without the
+tuple type the positions are
+\texttt{number \textbar{} undefined}.
+
+\subsection{\texorpdfstring{T3:
+\texttt{noUncheckedIndexedAccess}}{T3: noUncheckedIndexedAccess}}\label{t3-nouncheckedindexedaccess}
+
+\texttt{const [firstFilm] = films} makes
+\texttt{firstFilm} a
+\texttt{Film \textbar{} undefined}.
+\texttt{firstFilm.title} alone gives
+\texttt{error TS18048: 'firstFilm' is possibly 'undefined'.}
+I used \texttt{?.}, an \texttt{if}
+check, or a default.
+
+\subsection{T4: optional fields and
+defaults}\label{t4-optional-fields-and-defaults}
+
+\texttt{rating?: number} is
+\texttt{number \textbar{} undefined}.
+\texttt{const \{ rating = 0 \}} makes it
+\texttt{number}.
+\texttt{rating?: number \textbar{} null} with a default stays
+\texttt{number \textbar{} null}. Outputs:
+\texttt{T4 optional: 4.5},
+\texttt{T4 empty: undefined 0},
+\texttt{T4 null: null}.
+
+\subsection{T5: a compile error caused by
+destructuring}\label{t5-a-compile-error-caused-by-destructuring}
+
+\texttt{const \{ rating \}: \{ rating: number \} = filmAt(0)}
+fails because \texttt{rating} is optional:
+
+\begin{lstlisting}
+error TS2322: Type 'Film' is not assignable to type '{ rating: number; }'.
+  Types of property 'rating' are incompatible.
+    Type 'number | undefined' is not assignable to type 'number'.
+      Type 'undefined' is not assignable to type 'number'.
+\end{lstlisting}
+
+The fixed line is
+\texttt{const \{ rating: safeRating = 0 \}: \{ rating?: number \} = filmAt(0)}.
+Output: \texttt{T5 suppressed: 4} and
+\texttt{T5 fixed: 4}. I used
+\texttt{@ts-expect-error} only on the failing line.
+
+\section{Props and children}\label{props-and-children}
+
+A component gets one object, \texttt{props}. Content
+between the tags is the \texttt{children} field.
+
+\subsection{P1: props is one object}\label{p1-props-is-one-object}
+
+\texttt{function FilmCardA(props)} and
+\texttt{function FilmCardB(\{ film: \{ title \}, children \})}
+render the same thing:
+
+\begin{lstlisting}
+P1 A: <article><h2>Tokyo Godfathers</h2>same text</article>
+P1 B: <article><h2>Tokyo Godfathers</h2>same text</article>
+\end{lstlisting}
+
+The second one uses form 11, form 9 and form 5.
+
+\subsection{P2: children is only a
+prop}\label{p2-children-is-only-a-prop}
+
+\texttt{\textless{}FilmCardB film=\{filmAt(1)\}\textgreater{}Primetime note\textless{}/FilmCardB\textgreater{}}
+and
+\texttt{\textless{}FilmCardB film=\{filmAt(1)\} children="Primetime note" /\textgreater{}}
+both give:
+
+\begin{lstlisting}
+P2 tag: <article><h2>Primetime</h2>Primetime note</article>
+P2 prop: <article><h2>Primetime</h2>Primetime note</article>
+\end{lstlisting}
+
+In JS, giving both makes the tag content win. TS rejects it with
+\texttt{TS2710: 'children' are specified twice}.
+
+\subsection{P3: what children can be}\label{p3-what-children-can-be}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}>{\raggedright\arraybackslash}p{0.28\linewidth}>{\raggedright\arraybackslash}p{0.66\linewidth}@{}}
+\toprule\noalign{}
+children & result \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+string, number, element, array & rendered \\
+\texttt{undefined}, \texttt{null},
+\texttt{false} & nothing \\
+function & warning, nothing \\
+\end{longtable}
+}
+
+For example:
+\texttt{P3 string: "\textless{}article\textgreater{}\textless{}h2\textgreater{}Tokyo Godfathers\textless{}/h2\textgreater{}a review\textless{}/article\textgreater{}"}
+and
+\texttt{P3 undefined: "\textless{}article\textgreater{}\textless{}h2\textgreater{}Tokyo Godfathers\textless{}/h2\textgreater{}\textless{}/article\textgreater{}"}.
+A function produces
+\texttt{Functions are not valid as a React child.}
+\texttt{ReactNode} does not include functions.
+
+\subsection{P4: children vs other
+props}\label{p4-children-vs-other-props}
+
+\texttt{(\{ film, children, ...rest \})} removes
+\texttt{film} and \texttt{children};
+\texttt{rest} has \texttt{className}
+and \texttt{id}.
+\texttt{\textless{}section \{...rest\}\textgreater{}} gives:
+
+\begin{lstlisting}
+P4 rest: <section class="card" id="tokyo"><h2>Tokyo Godfathers</h2>text</section>
+\end{lstlisting}
+
+Spread order decides the winner:
+\texttt{\textless{}section \{...rest\} className="explicit"\textgreater{}}
+keeps \texttt{explicit};
+\texttt{\textless{}section className="explicit" \{...rest\}\textgreater{}}
+keeps the rest value.
+
+\subsection{P5: props or children?}\label{p5-props-or-children}
+
+\texttt{SlotCard} takes
+\texttt{header} and \texttt{footer};
+\texttt{ChildrenCard} takes children only. Outputs:
+
+\begin{lstlisting}
+P5 slots: <article><header><span>Header</span></header><h2>The Worst Person in the World</h2><footer><span>Footer</span></footer></article>
+P5 children: <article><h2>The Worst Person in the World</h2><span>Header</span><span>Footer</span></article>
+\end{lstlisting}
+
+Use slots when the layout is fixed and each part has a job. Use children
+when the caller should decide the content and order.
+
+\subsection{\texorpdfstring{P6: defaults, \texttt{undefined} and
+\texttt{null}}{P6: defaults, undefined and null}}\label{p6-defaults-undefined-and-null}
+
+\begin{lstlisting}
+P6 default: <span>0</span>
+P6 undefined: <span>0</span>
+P6 null: <span>no rating</span>
+\end{lstlisting}
+
+\texttt{undefined} triggers the default;
+\texttt{null} does not. \texttt{??}
+shows null as \texttt{no rating}.
+
+\subsection{P7: types for props and
+children}\label{p7-types-for-props-and-children}
+
+\texttt{children?: ReactNode} accepts strings, numbers,
+elements, arrays, \texttt{null},
+\texttt{undefined} and \texttt{false};
+it rejects functions.
+\texttt{PropsWithChildren\textless{}\{ film: Film \}\textgreater{}} adds
+optional children. \texttt{ComponentProps\textless{}'button'\textgreater{}}
+gives all button props (\texttt{type},
+\texttt{disabled}, \texttt{onClick},
+\texttt{children}).
+
+Outputs:
+
+\begin{lstlisting}
+P7 PropsWithChildren: <article><h2>Tokyo Godfathers</h2>child</article>
+P7 ComponentProps button: <button type="button" disabled="">Save</button>
+P7 key probe: <span>undefined</span>
+\end{lstlisting}
+
+The compiler rejects:
+
+\begin{lstlisting}
+<FilmCard film="Tokyo Godfathers" />  -> Type 'string' is not assignable to type 'Film'.
+<FilmCard film={filmAt(0)} title="x" /> -> Property 'title' does not exist.
+<FilmCard film={filmAt(0)}>{() => 'x'}</FilmCard> -> Type '() => string' is not assignable to type 'ReactNode'.
+<FancyButton variant="ghost" /> -> Property 'variant' does not exist.
+\end{lstlisting}
+
+\texttt{key} is not a prop:
+\texttt{props.key} is
+\texttt{undefined} and React warns about it.
+
+\section{JavaScript vs TypeScript}\label{javascript-vs-typescript}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Form
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Same in both
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+TypeScript adds
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Error if wrong
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+1. array by position & \texttt{const [a, b] = f()} &
+\texttt{: [number, number]} &
+\texttt{TS18048} if a position is used as a number. \\
+2. skip and rest &
+\texttt{const [, second, ...others] = ranked} & nothing
+& \texttt{second.title} gives
+\texttt{TS18048}. \\
+3. swap & \texttt{[a, b] = [b, a]} &
+\texttt{let} plus a check &
+\texttt{films[0]} gives
+\texttt{TS18048} if used directly. \\
+6. rename & \texttt{const \{ a: alpha \} = t} & nothing
+& \texttt{\{ a: string \}} is a rename, not a type. \\
+7. object default & \texttt{const \{ a = 1 \} = t} &
+\texttt{a?: number} & Required
+\texttt{\{ a: number \}} gives
+\texttt{TS2322}. \\
+9. nested pattern & \texttt{const \{ p: \{ x \} \} = t}
+& nothing & Array element is
+\texttt{T \textbar{} undefined}. \\
+10. computed key &
+\texttt{const \{ [key]: value \} = t} & literal or
+\texttt{keyof Film} & Plain
+\texttt{string} gives
+\texttt{TS2537}. \\
+11. parameter pattern &
+\texttt{function f(\{ a = 1 \} = \{\})} & type after
+the pattern & Required fields make \texttt{= \{\}}
+invalid. \\
+12. loop pattern &
+\texttt{for (const [k, v] of Object.entries(o))} &
+tuple type for \texttt{Map} &
+\texttt{Map} infers a union without it. \\
+props and children & \texttt{\textless{}Card\textgreater{}text\textless{}/Card\textgreater{}} &
+\texttt{children?: ReactNode} & Function child gives
+\texttt{TS2322}; duplicate children give
+\texttt{TS2710}. \\
+\end{longtable}
+}
+
+\section{Bonus 2: Depth}\label{bonus-2-depth}
+
+The handout asks what an array pattern really calls on the value. The
+answer is the iterator protocol, not array indexes. I put the
+experiments in \texttt{js/depth.mjs} and added that
+file to \texttt{npm run js}.
+
+\textbf{Output from \texttt{node js/depth.mjs}:}
+
+\begin{lstlisting}
+depth string: F i
+depth set: drama comedy
+depth map: Tokyo Godfathers 2003 | Primetime 2026
+depth generator: Tokyo Godfathers 2003
+depth custom: Memories of Murder 2003
+depth rest: 1 2,3
+depth object: TypeError - plainObject is not iterable
+\end{lstlisting}
+
+What each line shows:
+
+\begin{itemize}
+\tightlist
+\item
+  A string is iterable character by character, so
+  \texttt{'Film'} gives \texttt{F} and
+  \texttt{i}.
+\item
+  A \texttt{Set} is iterable; duplicates are removed
+  before iteration, so the first two values are
+  \texttt{drama} and \texttt{comedy}.
+\item
+  A \texttt{Map} yields
+  \texttt{[key, value]} pairs, so the nested pattern
+  \texttt{[[firstTitle, firstYear], [secondTitle, secondYear]]}
+  works.
+\item
+  A generator is iterable without being an array; the pattern calls
+  \texttt{next()} and takes the yielded values.
+\item
+  The custom object in \texttt{js/depth.mjs} has only
+  \texttt{[Symbol.iterator]} and
+  \texttt{next()}: no \texttt{length},
+  no \texttt{[0]}. The array pattern still works.
+\item
+  \texttt{...rest} keeps pulling values from the
+  iterator until it is done.
+\item
+  A plain object has no \texttt{Symbol.iterator}, so
+  the pattern throws \texttt{TypeError}.
+\end{itemize}
+
+What I learned: \texttt{const [a, b] = value} does not
+mean ``read \texttt{value[0]} and
+\texttt{value[1]}''. It means ``get an iterator from
+\texttt{value}, call \texttt{next()}
+twice, and bind the results''. That is why strings,
+\texttt{Set}, \texttt{Map}, generators
+and custom iterables work, and plain objects do not. The same protocol
+powers \texttt{for...of}, spread and
+\texttt{Array.from}.
+
+\section{Bonus 3: Real code}\label{bonus-3-real-code}
+
+I used the TypeScript compiler installed in
+\texttt{node\textbackslash{}\_modules} (version 5.8.3) and MUI's
+open-source Button component. The TypeScript line numbers are from the
+installed file; the MUI link is pinned to commit
+\texttt{9f8fe58}.
+
+\subsection{\texorpdfstring{1.
+\texttt{node\_modules/typescript/lib/typescript.js:4872} --- skip and
+defaults (forms 2 and
+4)}{1. node\_modules/typescript/lib/typescript.js:4872 --- skip and defaults (forms 2 and 4)}}\label{node_modulestypescriptlibtypescript.js4872-skip-and-defaults-forms-2-and-4}
+
+\begin{lstlisting}
+const [, major, minor = "0", patch = "0", prerelease = "", build2 = ""] = match;
+\end{lstlisting}
+
+\texttt{match} comes from
+\texttt{versionRegExp.exec(text)}. Index 0 is the whole
+match, so the leading comma skips it. Without destructuring:
+
+\begin{lstlisting}
+const major = match[1];
+const minor = match[2] === undefined ? "0" : match[2];
+const patch = match[3] === undefined ? "0" : match[3];
+const prerelease = match[4] === undefined ? "" : match[4];
+const build2 = match[5] === undefined ? "" : match[5];
+\end{lstlisting}
+
+The destructured line is shorter and keeps each default next to its
+name.
+
+\subsection{\texorpdfstring{2.
+\texttt{node\_modules/typescript/lib/typescript.js:4830} --- rename
+(forms 5 and
+6)}{2. node\_modules/typescript/lib/typescript.js:4830 --- rename (forms 5 and 6)}}\label{node_modulestypescriptlibtypescript.js4830-rename-forms-5-and-6}
+
+\begin{lstlisting}
+const { major, minor, patch, prerelease, build: build2 } = result;
+\end{lstlisting}
+
+Without destructuring:
+
+\begin{lstlisting}
+const major = result.major;
+const minor = result.minor;
+const patch = result.patch;
+const prerelease = result.prerelease;
+const build2 = result.build;
+\end{lstlisting}
+
+\texttt{build} is renamed to
+\texttt{build2}, probably to avoid a name clash. This
+is form 6 in real code.
+
+\subsection{\texorpdfstring{3.
+\texttt{node\_modules/typescript/lib/typescript.js:188380} --- rest
+(form
+8)}{3. node\_modules/typescript/lib/typescript.js:188380 --- rest (form 8)}}\label{node_modulestypescriptlibtypescript.js188380-rest-form-8}
+
+\begin{lstlisting}
+const { lazyConfiguredProjectsFromExternalProject: _, ...userPreferences } = preferences;
+\end{lstlisting}
+
+Without destructuring:
+
+\begin{lstlisting}
+const userPreferences = { ...preferences };
+delete userPreferences.lazyConfiguredProjectsFromExternalProject;
+\end{lstlisting}
+
+The rest pattern removes one internal field and keeps the rest in a new
+object. The \texttt{\textbackslash{}\_} name says ``I do not use this
+value''.
+
+\subsection{\texorpdfstring{4.
+\texttt{node\_modules/typescript/lib/typescript.js:136407} --- loop
+(form
+12)}{4. node\_modules/typescript/lib/typescript.js:136407 --- loop (form 12)}}\label{node_modulestypescriptlibtypescript.js136407-loop-form-12}
+
+\begin{lstlisting}
+for (const [key, value] of lineCounts.entries()) {
+  reportCountStatistic("Lines of " + key, value);
+}
+\end{lstlisting}
+
+Without destructuring:
+
+\begin{lstlisting}
+for (const entry of lineCounts.entries()) {
+  const key = entry[0];
+  const value = entry[1];
+  reportCountStatistic("Lines of " + key, value);
+}
+\end{lstlisting}
+
+The destructured version names the two parts immediately.
+
+\subsection{\texorpdfstring{5. MUI Button, \texttt{Button.js:507-527}
+--- React props and children (forms 5, 6, 7, 8 and
+11)}{5. MUI Button, Button.js:507-527 --- React props and children (forms 5, 6, 7, 8 and 11)}}\label{mui-button-button.js507-527-react-props-and-children-forms-5-6-7-8-and-11}
+
+Source:
+\href{https://github.com/mui/material-ui/blob/9f8fe586afb3d81f4108a96f3b943a0990ee3f08/packages/mui-material/src/Button/Button.js\#L507-L527}{\texttt{packages/mui-material/src/Button/Button.js}}
+
+\begin{lstlisting}
+const {
+  children,
+  color = 'primary',
+  component = 'button',
+  // ... about 16 more props ...
+  variant = 'text',
+  ...other
+} = props;
+\end{lstlisting}
+
+This is a real React component. \texttt{props} is the
+one object the component receives. \texttt{children} is
+one field of that object, not a separate argument.
+\texttt{color}, \texttt{component},
+\texttt{variant} and the rest are props.
+\texttt{...other} keeps the props that were not named;
+later the component spreads them onto
+\texttt{\textless{}ButtonRoot \{...other\}\textgreater{}}, while
+\texttt{children} is rendered explicitly at line 608.
+
+Without destructuring it would start like this:
+
+\begin{lstlisting}
+const children = props.children;
+const color = props.color === undefined ? 'primary' : props.color;
+const component = props.component === undefined ? 'button' : props.component;
+// ... about 16 more lines ...
+const other = { ...props };
+delete other.children;
+delete other.color;
+// ...
+\end{lstlisting}
+
+\textbf{Where it is worse:} this is my example of destructuring making
+code harder to read. The block has about 20 names, several defaults, a
+rest element, and a \texttt{children} field mixed in. A
+reader has to scan the whole block to know what is forwarded. MUI
+probably does it to apply defaults and filter props, but for a component
+this large I would prefer a few targeted reads and an explicit
+\texttt{other} object.
+
+\section{My own log}\label{my-own-log}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  \textbf{TS2710.} I put both
+  \texttt{children="from prop"} and tag content in
+  \texttt{ts/props.tsx}.
+  \texttt{npm run check} said:
+  \texttt{error TS2710: 'children' are specified twice.}
+  I removed it from TS; JS still runs it and the tag content wins.
+\item
+  \textbf{Function child.} I passed
+  \texttt{() =\textgreater{} 'ignored'} as children. React printed
+  \texttt{Functions are not valid as a React child.}
+  and rendered nothing. I learned that
+  \texttt{ReactNode} does not include functions.
+\item
+  \textbf{\texttt{key} is not a prop.} I read
+  \texttt{props.key} and got
+  \texttt{undefined}, plus a warning saying
+  \texttt{key} is not a prop. React removes it before
+  the component runs.
+\item
+  \textbf{Optional rating.} I annotated
+  \texttt{\{ rating: number \}} although
+  \texttt{Film} has
+  \texttt{rating?: number}. The error was
+  \texttt{Type 'Film' is not assignable to type '\{ rating: number; \}'}.
+  I kept the \texttt{?} or added a default.
+\item
+  \textbf{Array index.}
+  \texttt{const [firstFilm] = films; firstFilm.title}
+  gave
+  \texttt{error TS18048: 'firstFilm' is possibly 'undefined'.}
+  I used \texttt{?.}, an \texttt{if}
+  check, or a default.
+\end{enumerate}
+
+\end{document}
+
