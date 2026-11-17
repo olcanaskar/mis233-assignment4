@@ -1,4 +1,4 @@
-// Olcan Askar, student number: 2024502180
+// Abdullah Olcan Askar, student number: 2024502180
 // The same six object forms as js/objects.mjs, now typed.
 
 import { filmAt, type Film } from './data.js'

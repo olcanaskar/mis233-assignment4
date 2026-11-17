@@ -1,4 +1,4 @@
-// Olcan Askar, student number: 2024502180
+// Abdullah Olcan Askar, student number: 2024502180
 // Props and children in plain JavaScript (JSX). Run with `npx tsx js/props.jsx`.
 import { renderToStaticMarkup } from 'react-dom/server'
 import { filmAt } from './data.mjs'

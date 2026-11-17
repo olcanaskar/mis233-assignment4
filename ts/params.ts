@@ -1,4 +1,4 @@
-// Olcan Askar, student number: 2024502180
+// Abdullah Olcan Askar, student number: 2024502180
 // Forms 11 and 12 in TypeScript, and the typing rules for patterns in parameters.
 
 import { filmAt, films, type Film } from './data.js'

@@ -1,4 +1,4 @@
-// Olcan Askar, student number: 2024502180
+// Abdullah Olcan Askar, student number: 2024502180
 // Bonus 2: an array pattern does not require an array; it requires an iterable.
 // Run with `node js/depth.mjs`.
 

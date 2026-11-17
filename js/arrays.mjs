@@ -1,4 +1,4 @@
-// Olcan Askar, student number: 2024502180
+// Abdullah Olcan Askar, student number: 2024502180
 // Array destructuring (forms 1 to 4). Plain JavaScript: run with `node js/arrays.mjs`.
 
 import { films } from './data.mjs'

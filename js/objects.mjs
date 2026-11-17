@@ -1,4 +1,4 @@
-// Olcan Askar, student number: 2024502180
+// Abdullah Olcan Askar, student number: 2024502180
 // Object destructuring (forms 5 to 10). Run with `node js/objects.mjs`.
 
 import { filmAt } from './data.mjs'

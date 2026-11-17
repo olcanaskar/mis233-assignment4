@@ -1,4 +1,4 @@
-// Olcan Askar, student number: 2024502180
+// Abdullah Olcan Askar, student number: 2024502180
 // What only TypeScript adds (topics T1 to T5). See the handout.
 
 import { filmAt, films, type Film } from './data.js'

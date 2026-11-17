@@ -1,4 +1,4 @@
-// Olcan Askar, student number: 2024502180
+// Abdullah Olcan Askar, student number: 2024502180
 // Props and children in TypeScript. Run with `npx tsx ts/props.tsx`.
 import type { ComponentProps, PropsWithChildren, ReactNode } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'

@@ -1,4 +1,4 @@
-// Olcan Askar, student number: 2024502180
+// Abdullah Olcan Askar, student number: 2024502180
 // The same four array forms as js/arrays.mjs, now typed. Run with `npx tsx ts/arrays.ts`.
 
 import { films, type Film } from './data.js'

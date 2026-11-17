@@ -1,6 +1,6 @@
 # Destructuring Field Guide
 
-Olcan Askar  
+Abdullah Olcan Askar  
 Student number: 2024502180  
 MIS 233, Fall 2026
 
@@ -401,7 +401,7 @@ real tables. Its log has 0 errors and 0 overfull hbox warnings.
 Commands used:
 
 ```
-pandoc README.md -o latex/field-guide.tex --standalone --toc --listings --shift-heading-level-by=-1 --metadata author="Olcan Askar" --metadata date="November 2026" -V geometry:margin=2.5cm -V fontsize=11pt -V colorlinks=true -V linkcolor=blue -V urlcolor=blue
+pandoc README.md -o latex/field-guide.tex --standalone --toc --listings --shift-heading-level-by=-1 --metadata author="Abdullah Olcan Askar" --metadata date="November 2026" -V geometry:margin=2.5cm -V fontsize=11pt -V colorlinks=true -V linkcolor=blue -V urlcolor=blue
 python latex/fix_inline.py
 tectonic latex/field-guide.tex -o latex
 ```
