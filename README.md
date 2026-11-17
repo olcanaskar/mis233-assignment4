@@ -4,13 +4,14 @@ Olcan Askar
 Student number: 2024502180  
 MIS 233, Fall 2026
 
-Bonuses claimed: Bonus 1: LaTeX, Bonus 2: Depth, Bonus 3: Real code.
+Bonuses claimed: Bonus 1: LaTeX, Bonus 2: Depth, Bonus 3: Real code, Bonus 4: Git repository.
 
-## Repository
+## Bonus 4: Git repository
 
 https://github.com/olcanaskar/mis233-assignment4
 
-The repository is public.
+The repository is public. The project setup and the bonus work are in separate
+commits on `main`.
 
 ## Run
 
