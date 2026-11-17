@@ -1,0 +1,886 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>MIS 233 Assignment 4 — Okuma Notları</title>
+<style>
+  :root {
+    --bg: #f6f8fc;
+    --card: #ffffff;
+    --ink: #172033;
+    --muted: #5b6780;
+    --line: #dbe2ee;
+    --accent: #1a58a5;
+    --accent-soft: #e8f1fc;
+    --hero: linear-gradient(135deg, #e8f1ff, #f8fbff 55%, #eef7f1);
+    --code: #f3f6fa;
+    --warn: #fff4df;
+    --warn-line: #b45f00;
+    --ok: #e8f7ee;
+    --ok-line: #1f7a45;
+    --shadow: 0 8px 24px rgba(23, 32, 51, .07);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1420;
+      --card: #141d2c;
+      --ink: #e9eef7;
+      --muted: #a8b5ca;
+      --line: #2a3850;
+      --accent: #7db4ff;
+      --accent-soft: #182942;
+      --hero: linear-gradient(135deg, #16243a, #101827 60%, #12261f);
+      --code: #0f1826;
+      --warn: #2a2113;
+      --warn-line: #e0a24a;
+      --ok: #10261a;
+      --ok-line: #64c98b;
+      --shadow: 0 8px 24px rgba(0, 0, 0, .25);
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font: 16px/1.7 system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    -webkit-text-size-adjust: 100%;
+  }
+  .wrap { max-width: 780px; margin: 0 auto; padding: 16px 14px 64px; }
+  .hero {
+    background: var(--hero);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 24px 18px 20px;
+    box-shadow: var(--shadow);
+  }
+  .eyebrow {
+    margin: 0 0 8px;
+    color: var(--muted);
+    font-size: .8rem;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+  }
+  h1 {
+    margin: 0;
+    font-size: clamp(1.8rem, 7vw, 2.7rem);
+    line-height: 1.12;
+    letter-spacing: -.03em;
+  }
+  .lede { margin: 14px 0 0; font-size: 1.02rem; }
+  .meta { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 16px; }
+  .chip {
+    display: inline-block;
+    border: 1px solid var(--line);
+    background: var(--card);
+    border-radius: 999px;
+    padding: 4px 10px;
+    font-size: .8rem;
+    color: var(--muted);
+  }
+  .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+  button, .button {
+    appearance: none;
+    border: 1px solid var(--line);
+    background: var(--card);
+    color: var(--ink);
+    border-radius: 10px;
+    padding: 9px 13px;
+    font: inherit;
+    font-size: .9rem;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  button:hover, .button:hover { border-color: var(--accent); color: var(--accent); }
+  .toc {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin: 18px 0 8px;
+  }
+  .toc a {
+    display: block;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 10px 12px;
+    color: var(--ink);
+    text-decoration: none;
+    font-size: .88rem;
+    line-height: 1.35;
+  }
+  .toc a:hover { border-color: var(--accent); }
+  @media (max-width: 480px) { .toc { grid-template-columns: 1fr; } }
+  h2 {
+    margin: 2.4rem 0 .8rem;
+    padding-top: .4rem;
+    font-size: 1.35rem;
+    line-height: 1.25;
+    letter-spacing: -.02em;
+    scroll-margin-top: 14px;
+  }
+  h3 { margin: 1.4rem 0 .4rem; font-size: 1.05rem; }
+  p { margin: 0 0 .9rem; }
+  a { color: var(--accent); text-underline-offset: .18em; }
+  code, samp {
+    font-family: ui-monospace, "Cascadia Code", "SF Mono", Menlo, Consolas, monospace;
+    font-size: .88em;
+  }
+  :not(pre) > code {
+    background: var(--code);
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    padding: .08em .32em;
+    overflow-wrap: anywhere;
+  }
+  pre {
+    margin: .8rem 0 1rem;
+    padding: 12px 13px;
+    background: var(--code);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    overflow-x: auto;
+    font-size: .82rem;
+    line-height: 1.55;
+    tab-size: 2;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+  pre code { font-size: 1em; }
+  .note, .warn, .ok {
+    margin: 12px 0;
+    padding: 11px 13px;
+    border-left: 4px solid var(--accent);
+    background: var(--accent-soft);
+    border-radius: 0 10px 10px 0;
+  }
+  .warn { border-left-color: var(--warn-line); background: var(--warn); }
+  .ok { border-left-color: var(--ok-line); background: var(--ok); }
+  .note p:last-child, .warn p:last-child, .ok p:last-child { margin-bottom: 0; }
+  details.card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    margin: 9px 0;
+    padding: 0 13px;
+    box-shadow: var(--shadow);
+  }
+  details.card > summary {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    padding: 12px 0;
+    cursor: pointer;
+    font-weight: 650;
+    line-height: 1.4;
+    list-style: none;
+  }
+  details.card > summary::-webkit-details-marker { display: none; }
+  details.card > summary::before {
+    content: "▸";
+    color: var(--accent);
+    flex: 0 0 auto;
+    font-size: .9rem;
+  }
+  details.card[open] > summary::before { content: "▾"; }
+  details.card > summary small {
+    color: var(--muted);
+    font-weight: 500;
+    font-size: .78rem;
+  }
+  .body { padding: 0 0 13px; }
+  .tag {
+    display: inline-block;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 2px 8px;
+    font-size: .72rem;
+    color: var(--muted);
+    vertical-align: .1em;
+  }
+  .film-list { margin: .4rem 0 1rem; padding-left: 1.2rem; }
+  .film-list li { margin: .22rem 0; }
+  .table-wrap { overflow-x: auto; margin: 10px 0 14px; }
+  table { width: 100%; border-collapse: collapse; font-size: .84rem; line-height: 1.45; }
+  th, td { text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); padding: 7px 6px; }
+  th { color: var(--muted); font-weight: 650; }
+  .small { color: var(--muted); font-size: .85rem; }
+  .top {
+    position: fixed;
+    right: 14px;
+    bottom: 14px;
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    background: var(--card);
+    color: var(--ink);
+    text-decoration: none;
+    box-shadow: var(--shadow);
+    font-size: 1.1rem;
+  }
+  footer {
+    margin-top: 42px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: .82rem;
+  }
+  @media print {
+    body { background: #fff; }
+    .toc, .actions, .top { display: none; }
+    details.card { break-inside: avoid; box-shadow: none; }
+    a { color: #000; }
+  }
+</style>
+</head>
+<body id="top">
+<div class="wrap">
+
+<header class="hero">
+  <p class="eyebrow">MIS 233 · Web Based Application Programming</p>
+  <h1>Assignment 4<br>Okuma Notları</h1>
+  <p class="lede">Bu dosya, <code>assignment4</code> klasöründe yaptığımız işi telefonda rahat okunacak şekilde anlatır. Teslim edilen README'nin yerine geçmez; onu ve kodu anlamak için hazırlanmış bir rehberdir.</p>
+  <div class="meta">
+    <span class="chip">Abdullah Olcan Askar</span>
+    <span class="chip">2024502180</span>
+    <span class="chip">17 Kasım 2026</span>
+    <span class="chip">4 bonus tamam</span>
+  </div>
+  <div class="actions">
+    <button id="toggle" type="button">Tüm bölümleri aç</button>
+    <a class="button" href="README.md">README'yi aç</a>
+    <a class="button" href="latex/field-guide.pdf">PDF'i aç</a>
+  </div>
+</header>
+
+<nav class="toc" aria-label="İçindekiler">
+  <a href="#ozet">Kısa özet ve kronoloji</a>
+  <a href="#odev">Ödev ne istiyordu?</a>
+  <a href="#destructuring">Destructuring nedir?</a>
+  <a href="#veri">Veri: son 10 film</a>
+  <a href="#formlar">12 form</a>
+  <a href="#pitfalls">5 pitfall</a>
+  <a href="#typescript">T1–T5</a>
+  <a href="#props">Props ve children</a>
+  <a href="#bonuslar">Bonus 1–4</a>
+  <a href="#dosyalar">Dosyalar ve komutlar</a>
+  <a href="#test">Testler</a>
+  <a href="#teslim">Teslim durumu</a>
+  <a href="#sozluk">Sözlük</a>
+  <a href="#anlatim">Hocaya anlatırken</a>
+</nav>
+
+<main>
+
+<section id="ozet">
+  <h2>Kısa özet ve kronoloji</h2>
+  <p>Bu ödev, JavaScript ve TypeScript'te <strong>destructuring</strong> konusunu anlatan bir “field guide” yazmamızı istiyordu. Kodun kendisi küçük; asıl puan, konuyu anladığımızı göstermemizde.</p>
+  <p>Biz şunları yaptık:</p>
+  <ul>
+    <li>Letterboxd'daki son 10 filmden küçük bir veri seti kurduk.</li>
+    <li>12 destructuring formunu hem JavaScript hem TypeScript'te yazdık.</li>
+    <li>5 pitfall, T1–T5 ve React'te P1–P7 konularını ekledik.</li>
+    <li>README'yi, gerçek çıktılarla ve kendi hata günlüğümüzle yazdık.</li>
+    <li>Dört bonusu da tamamladık: LaTeX, depth, real code, Git repo.</li>
+  </ul>
+  <div class="ok">
+    <p><strong>Şu an:</strong> Dört bonus da README'de claim edildi. Repo public. PDF 13 sayfa ve 0 overfull. Zip hazır. Tek kalan, zip'i Moodle'a yüklemek.</p>
+  </div>
+  <h3>Kısa kronoloji</h3>
+  <ul>
+    <li><strong>15 Kasım:</strong> Ödev okundu, starter kuruldu, Letterboxd verisi alındı, zorunlu kod ve README yazıldı, Bonus 3 (real code) eklendi, GitHub repo açıldı.</li>
+    <li><strong>16 Kasım:</strong> Bonus 2 (depth) yapıldı; Tectonic/Pandoc kuruldu, Bonus 1 (LaTeX) eklendi.</li>
+    <li><strong>17 Kasım:</strong> Bonus 4 (Git repo) claim edildi, tam ad güncellendi, son testler ve zip yapıldı.</li>
+  </ul>
+</section>
+
+<section id="odev">
+  <h2>Ödev ne istiyordu?</h2>
+  <p>Assignment 4'ün puan dağılımı şöyleydi:</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Gereksinim</th><th>Ne istiyor?</th><th>Puan</th></tr></thead>
+      <tbody>
+        <tr><td>R1</td><td>Proje çalışsın, strict type-check geçsin</td><td>5</td></tr>
+        <tr><td>R2</td><td>JS'de 12 form + 5 pitfall</td><td>10</td></tr>
+        <tr><td>R3</td><td>TS'de 12 form + T1–T5</td><td>15</td></tr>
+        <tr><td>R4</td><td>README'de 12 form girişi + pitfalls</td><td>30</td></tr>
+        <tr><td>R5</td><td>Props ve children, P1–P7</td><td>25</td></tr>
+        <tr><td>R6</td><td>JS vs TS tablosu</td><td>5</td></tr>
+        <tr><td>R7</td><td><code>output.txt</code> + kendi log</td><td>10</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Yani en büyük iki parça <strong>README</strong> (30) ve <strong>props/children</strong> (25). Kod, bu iki parçayı kanıtlamak için var.</p>
+  <p>Her bonus ayrıca 5+ puan. Dört bonusla toplam 120+ hedefleniyor.</p>
+</section>
+
+<section id="destructuring">
+  <h2>Destructuring nedir?</h2>
+  <p>En basit benzetme: <strong>bir kutunun içindekileri tek tek isimlendirerek dışarı almak.</strong></p>
+  <p>Normalde:</p>
+  <pre><code>const film = films[0]
+const title = film.title
+const year = film.year</code></pre>
+  <p>Destructuring ile:</p>
+  <pre><code>const { title, year } = films[0]</code></pre>
+  <p>İki ana tür var:</p>
+  <ul>
+    <li><strong>Dizi:</strong> sıraya göre alır. <code>const [first, second] = list</code></li>
+    <li><strong>Nesne:</strong> isme göre alır. <code>const { title, year } = film</code></li>
+  </ul>
+  <p>Üç küçük parça daha:</p>
+  <ul>
+    <li><strong>Rest</strong> (<code>...others</code>): kalanı topla.</li>
+    <li><strong>Spread</strong> (<code>...list</code>): içindekileri aç. Aynı üç nokta, zıt iş.</li>
+    <li><strong>Default</strong> (<code>= 0</code>): değer yoksa yedeği kullan.</li>
+  </ul>
+  <div class="note"><p><strong>Önemli:</strong> Dizi destructuring aslında “<code>value[0]</code> oku” demek değil. Değerin <code>Symbol.iterator</code> metodunu çağırıp <code>next()</code> ile değerleri almak demek. Bu yüzden string, Set, Map ve generator da çalışır; düz nesne çalışmaz.</p></div>
+</section>
+
+<section id="veri">
+  <h2>Veri: son 10 film</h2>
+  <p>Letterboxd'daki son 10 filmimizi kullandık. Profil: <code>letterboxd.com/olcan</code>. Film günlüğü sayfası 403 verdiği için public RSS feed'inden aldık.</p>
+  <ol class="film-list">
+    <li>Tokyo Godfathers (2003) — 4</li>
+    <li>Primetime (2026) — 3.5</li>
+    <li>Memories of Murder (2003) — 4.5</li>
+    <li>The Worst Person in the World (2021) — 4</li>
+    <li>The Lobster (2015) — 3.5</li>
+    <li>Coyote vs. Acme (2026) — 3.5</li>
+    <li>Happy Together (1997) — 3</li>
+    <li>The Working Class Goes to Heaven (1971) — 3</li>
+    <li>Punch-Drunk Love (2002) — 3.5</li>
+    <li>Waves (2019) — 4</li>
+  </ol>
+  <p>Veri modelini sade tuttuk. TS tarafında sadece şu alanlar var:</p>
+  <p><code>id</code>, <code>title</code>, <code>year</code>, <code>director.name</code>, <code>genres</code>, <code>rating</code>.</p>
+  <p><code>runtime</code>, <code>country</code>, <code>rewatch</code>, <code>watchedOn</code>, <code>tags</code> ve <code>letterboxdUrl</code> yok. Neden? Örnekleri okumayı kolaylaştırmak için. JS ve TS aynı 10 filmi kullanıyor; böylece çıktılar birebir karşılaştırılabiliyor.</p>
+</section>
+
+<section id="formlar">
+  <h2>12 form</h2>
+  <p>Aşağıdaki her kart bir form. Telefonda dokunup açabilirsin.</p>
+
+  <details class="card">
+    <summary>Form 1 — Değerleri sırayla al <small>const [x, y] = f()</small></summary>
+    <div class="body">
+      <p><strong>Syntax:</strong> <code>const [oldest, newest] = yearRange(films)</code></p>
+      <p><strong>Example:</strong> <code>yearRange</code> en eski ve en yeni film yılını döndürür.</p>
+      <p><strong>Output:</strong> <code>form 1: 1971 2026</code></p>
+      <p><strong>Use it when:</strong> fonksiyon birden çok değeri sabit sırayla döndürüyorsa.</p>
+      <p><strong>Watch out:</strong> Sıra tek bağlantıdır. Eksik eleman <code>undefined</code> olur. TS'de <code>: [number, number]</code> yazmazsak pozisyonlar <code>number | undefined</code> olur.</p>
+    </div>
+  </details>
+
+  <details class="card">
+    <summary>Form 2 — Birini atla, kalanı topla <small>const [, second, ...others]</small></summary>
+    <div class="body">
+      <p><strong>Syntax:</strong> <code>const [, second, ...others] = ranked</code></p>
+      <p><strong>Example:</strong> Rating'e göre sırala; ilkini atla; ikinciyi ve kalanları al.</p>
+      <p><strong>Output:</strong> <code>form 2: Tokyo Godfathers + 8 more</code></p>
+      <p><strong>Use it when:</strong> ilk eleman ilgini çekmiyorsa.</p>
+      <p><strong>Watch out:</strong> Virgül önemli. <code>[second, ...others]</code> ilk filmi <code>second</code>'a koyar. TS'de <code>second</code> <code>Film | undefined</code> olabilir.</p>
+    </div>
+  </details>
+
+  <details class="card">
+    <summary>Form 3 — İki değişkeni takas et <small>[a, b] = [b, a]</small></summary>
+    <div class="body">
+      <p><strong>Syntax:</strong> <code>[firstPick, secondPick] = [secondPick, firstPick]</code></p>
+      <p><strong>Output:</strong> <code>form 3: Primetime &lt;-&gt; Tokyo Godfathers</code></p>
+      <p><strong>Use it when:</strong> iki değer yer değiştirecekse.</p>
+      <p><strong>Watch out:</strong> <code>let</code> kullan; <code>const</code> olmaz. Satır başına <code>;</code> koy: <code>;[a, b] = [b, a]</code>. TS'de önce dizinin ilk iki elemanı var mı kontrol ettik.</p>
+    </div>
+  </details>
+
+  <details class="card">
+    <summary>Form 4 — Dizide varsayılan değer <small>const [a = 1] = []</small></summary>
+    <div class="body">
+      <p><strong>Syntax:</strong> <code>const [firstYear = 2003, secondYear = 2026] = emptyYears</code></p>
+      <p><strong>Output:</strong> <code>form 4: 2003 2026</code></p>
+      <p><strong>Use it when:</strong> eleman eksik olabilir ve bir yedek varsa.</p>
+      <p><strong>Watch out:</strong> Default sadece <code>undefined</code> için çalışır; <code>null</code> için çalışmaz.</p>
+    </div>
+  </details>
+
+  <details class="card">
+    <summary>Form 5 — İsme göre al <small>const { a, b } = t</small></summary>
+    <div class="body">
+      <p><strong>Syntax:</strong> <code>const { title, year } = filmAt(0)</code></p>
+      <p><strong>Output:</strong> <code>form 5: Tokyo Godfathers 2003</code></p>
+      <p><strong>Use it when:</strong> property adları istediğin değişken adlarıyla aynıysa.</p>
+      <p><strong>Watch out:</strong> Yazım hatası JS'de <code>undefined</code> verir. Değer <code>undefined</code> veya <code>null</code> ise satır <code>TypeError</code> atar.</p>
+    </div>
+  </details>
+
+  <details class="card">
+    <summary>Form 6 — Alırken yeniden adlandır <small>const { a: alpha } = t</small></summary>
+    <div class="body">
+      <p><strong>Syntax:</strong> <code>const { title: filmTitle, year: releaseYear } = filmAt(1)</code></p>
+      <p><strong>Output:</strong> <code>form 6: Primetime 2026</code></p>
+      <p><strong>Use it when:</strong> property adı başka bir değişkenle çakışıyorsa veya daha net bir ad gerekiyorsa.</p>
+      <p><strong>Watch out:</strong> Soldaki property, sağdaki yeni değişken. Sonrasında <code>title</code> veya <code>year</code> diye bir değişken yok. TS'de <code>{ title: string }</code> bir tip değil, rename'dir.</p>
+    </div>
+  </details>
+
+  <details class="card">
+    <summary>Form 7 — Nesnede varsayılan <small>const { a = 1 } = t</small></summary>
+    <div class="body">
+      <p><strong>Syntax:</strong> <code>const { rating = 0 } = unrated</code></p>
+      <p><strong>Output:</strong> <code>form 7: 0</code></p>
+      <p><strong>Use it when:</strong> alan opsiyonel ve bir yedek istiyorsan.</p>
+      <p><strong>Watch out:</strong> <code>null</code> default'u tetiklemez. <code>{ rating: null }</code> varsa sonuç <code>null</code> olur.</p>
+    </div>
+  </details>
+
+  <details class="card">
+    <summary>Form 8 — Nesnede rest <small>const { id, ...others } = t</small></summary>
+    <div class="body">
+      <p><strong>Syntax:</strong> <code>const { id, ...filmWithoutId } = filmAt(3)</code></p>
+      <p><strong>Output:</strong> <code>form 8: the-worst-person-in-the-world title,year,director,genres,rating</code></p>
+      <p><strong>Use it when:</strong> bir alanı ayırıp kalanını saklayacaksan.</p>
+      <p><strong>Watch out:</strong> Rest en sonda olmalı. Kopya sığdır; iç içe nesneler paylaşılır. React'te <code>({ title, children, ...rest })</code> bunun aynısıdır.</p>
+    </div>
+  </details>
+
+  <details class="card">
+    <summary>Form 9 — İç içe pattern <small>const { p: { x }, list: [first] } = t</small></summary>
+    <div class="body">
+      <p><strong>Syntax:</strong> <code>const { director: { name: directorName }, genres: [mainGenre] } = filmAt(2)</code></p>
+      <p><strong>Output:</strong> <code>form 9: Bong Joon-ho crime</code></p>
+      <p><strong>Use it when:</strong> nesnenin derin bir parçası veya içindeki dizinin ilk elemanı gerekiyorsa.</p>
+      <p><strong>Watch out:</strong> Her seviye var olmalı; yoksa satır atar. <code>mainGenre</code> dizi boşsa <code>undefined</code> olabilir; TS bunu <code>string | undefined</code> yapar.</p>
+    </div>
+  </details>
+
+  <details class="card">
+    <summary>Form 10 — Hesaplanan key <small>const { [key]: value } = t</small></summary>
+    <div class="body">
+      <p><strong>Syntax:</strong> <code>const key = 'year'; const { [key]: value } = filmAt(9)</code></p>
+      <p><strong>Output:</strong> <code>form 10: year 2019</code></p>
+      <p><strong>Use it when:</strong> property adı çalışma anında seçiliyorsa.</p>
+      <p><strong>Watch out:</strong> Köşeli parantez şart. TS'de düz <code>string</code> key <code>TS2537</code> verir; literal veya <code>keyof Film</code> kullan.</p>
+    </div>
+  </details>
+
+  <details class="card">
+    <summary>Form 11 — Parametrede pattern <small>function f({ a = 1 } = {})</small></summary>
+    <div class="body">
+      <p><strong>Syntax:</strong> <code>function createFilm({ title = 'Untitled', year = 0, rating = 0 } = {})</code></p>
+      <p><strong>Output:</strong> <code>form 11: { title: 'Waves', year: 2019, rating: 0 }</code> ve <code>form 11 empty: { title: 'Untitled', year: 0, rating: 0 }</code></p>
+      <p><strong>Form 11b:</strong> <code>form 11b: Tokyo Godfathers / Primetime</code></p>
+      <p><strong>Use it when:</strong> fonksiyon bir options objesi alıyorsa ve çoğu alanın default'u varsa.</p>
+      <p><strong>Watch out:</strong> <code>= {}</code> ayrı bir default. TS'de tip pattern'den sonra gelir. Zorunlu alanlar varsa <code>= {}</code> derlenmez. <code>null</code> defaults'u tetiklemez, hata atar.</p>
+    </div>
+  </details>
+
+  <details class="card">
+    <summary>Form 12 — Döngüde pattern <small>for (const [k, v] of ...)</small></summary>
+    <div class="body">
+      <p><strong>Syntax:</strong> <code>for (const [id, film] of Object.entries(byId))</code></p>
+      <p><strong>Output:</strong> <code>form 12: tokyo-godfathers =&gt; Tokyo Godfathers</code> ve <code>form 12 map: Tokyo Godfathers 2003</code></p>
+      <p><strong>Use it when:</strong> döngüde hem key hem value gerekiyorsa.</p>
+      <p><strong>Watch out:</strong> <code>Object.entries</code> key'i string yapar. TS'de <code>Map</code> için <code>[string, number]</code> tuple tipi gerekir. <code>for...in</code> sadece key verir.</p>
+    </div>
+  </details>
+</section>
+
+<section id="pitfalls">
+  <h2>5 pitfall</h2>
+
+  <details class="card">
+    <summary>1. undefined veya null'ı parçalamak <small>TypeError</small></summary>
+    <div class="body">
+      <pre><code>const { title } = undefined</code></pre>
+      <p><strong>Output:</strong></p>
+      <pre><code>pitfall 1 undefined: TypeError - Cannot destructure property 'title' of 'undefined' as it is undefined.
+pitfall 1 null: TypeError - Cannot destructure property 'title' of 'null' as it is null.</code></pre>
+      <p><strong>Why:</strong> <code>undefined</code> ve <code>null</code> property taşımaz; destructuring daha başlamadan atar.</p>
+    </div>
+  </details>
+
+  <details class="card">
+    <summary>2. Default null'ı değiştirmez <small>sadece undefined</small></summary>
+    <div class="body">
+      <pre><code>const { rating = 5 } = { rating: null }</code></pre>
+      <p><strong>Output:</strong> <code>pitfall 2: null (the default did not run)</code></p>
+      <p><strong>Why:</strong> <code>null</code> bilinçli bir değerdir; default sadece <code>undefined</code> için çalışır.</p>
+    </div>
+  </details>
+
+  <details class="card">
+    <summary>3. Parantezsiz atama <small>SyntaxError</small></summary>
+    <div class="body">
+      <pre><code>{ title } = film       // SyntaxError
+({ title } = film)     // doğru</code></pre>
+      <p><strong>Output:</strong> <code>pitfall 3: SyntaxError - Unexpected token '='</code></p>
+      <p><strong>Why:</strong> Satır <code>{</code> ile başlarsa JavaScript bunu blok sanır. Parantez ifade bağlamına zorlar.</p>
+    </div>
+  </details>
+
+  <details class="card">
+    <summary>4. Sığ kopya <small>nested obje paylaşılır</small></summary>
+    <div class="body">
+      <pre><code>const { director } = film
+director.name = 'X'   // orijinal film de değişir</code></pre>
+      <p><strong>Output:</strong> <code>pitfall 4: Someone Else (the original changed)</code></p>
+      <p><strong>Why:</strong> Destructuring her property'nin değerini kopyalar. Nested obje için bu değer bir referanstır; iki değişken aynı objeyi gösterir.</p>
+    </div>
+  </details>
+
+  <details class="card">
+    <summary>5. Dizi sırası vs nesne sırası <small>position vs name</small></summary>
+    <div class="body">
+      <p>Dizide sıra değişirse değerler de değişir. Nesnede property sırası değişse de isimler aynı olduğu için sonuç aynıdır.</p>
+      <p><strong>Output:</strong> <code>pitfall 5: Tokyo Godfathers Primetime | Primetime Tokyo Godfathers | Tokyo Godfathers Primetime</code></p>
+      <p><strong>Why:</strong> Diziler pozisyona, nesneler isme göre okunur.</p>
+    </div>
+  </details>
+</section>
+
+<section id="typescript">
+  <h2>TypeScript konuları T1–T5</h2>
+
+  <details class="card">
+    <summary>T1 — Pattern içindeki <code>{ a: string }</code> tip değil, rename</summary>
+    <div class="body">
+      <pre><code>const { title: string } = filmAt(0)</code></pre>
+      <p><strong>Output:</strong> <code>T1 rename: Tokyo Godfathers</code></p>
+      <p>Bu satır <code>string</code> adında bir değişken oluşturur; tip belirtmez. Doğru tip yazımı pattern'den sonra gelir:</p>
+      <pre><code>const { title: filmTitle }: Film = filmAt(0)</code></pre>
+      <p><strong>Output:</strong> <code>T1 typed: Tokyo Godfathers</code></p>
+    </div>
+  </details>
+
+  <details class="card">
+    <summary>T2 — Tuple ve <code>as const</code></summary>
+    <div class="body">
+      <pre><code>const pair: [number, string] = [2003, 'Tokyo Godfathers']
+const [pairYear, pairTitle] = pair
+
+const years = [2003, 2026, 1997] as const
+const [firstYear, secondYear] = years</code></pre>
+      <p><strong>Output:</strong> <code>T2 tuple: 2003 Tokyo Godfathers</code> ve <code>T2 as const: 2003 2026</code></p>
+      <p>Tuple her pozisyonun tipini sabitler. <code>as const</code> ise diziyi readonly tuple ve literal tipler yapar. Tuple annotation olmadan pozisyonlar <code>number | undefined</code> olabilir.</p>
+    </div>
+  </details>
+
+  <details class="card">
+    <summary>T3 — <code>noUncheckedIndexedAccess</code></summary>
+    <div class="body">
+      <pre><code>const [firstFilm] = films
+console.log(firstFilm?.title)
+if (!firstFilm) throw new Error('No first film')
+console.log(firstFilm.title)</code></pre>
+      <p><strong>Output:</strong> <code>T3 first: Tokyo Godfathers</code>, <code>T3 safe: Tokyo Godfathers</code>, <code>T3 default: Tokyo Godfathers</code></p>
+      <p><code>films[0]</code> tipi <code>Film | undefined</code>. Doğrudan <code>firstFilm.title</code> yazarsan:</p>
+      <pre><code>error TS18048: 'firstFilm' is possibly 'undefined'.</code></pre>
+      <p>Çözüm: <code>?.</code>, <code>if</code> kontrolü veya default.</p>
+    </div>
+  </details>
+
+  <details class="card">
+    <summary>T4 — Opsiyonel alan ve default</summary>
+    <div class="body">
+      <pre><code>type OptionalRating = { rating?: number }
+const rated: OptionalRating = { rating: 4.5 }
+const { rating } = rated
+const { rating: defaultRating = 0 } = rated
+const empty: OptionalRating = {}
+const { rating: emptyRating } = empty
+const { rating: emptyDefault = 0 } = empty</code></pre>
+      <p><strong>Output:</strong> <code>T4 optional: 4.5</code>, <code>T4 default: 4.5</code>, <code>T4 empty: undefined 0</code>, <code>T4 null: null</code></p>
+      <p>Opsiyonel alan <code>number | undefined</code>. Default <code>undefined</code>'ı kaldırır. <code>rating?: number | null</code> ise default sonrası <code>null</code> kalır.</p>
+    </div>
+  </details>
+
+  <details class="card">
+    <summary>T5 — Destructuring'in yol açtığı derleme hatası</summary>
+    <div class="body">
+      <pre><code>// @ts-expect-error - Type 'Film' is not assignable to type '{ rating: number; }'
+const { rating: requiredRating }: { rating: number } = filmAt(0)</code></pre>
+      <p>Hata:</p>
+      <pre><code>error TS2322: Type 'Film' is not assignable to type '{ rating: number; }'.
+  Types of property 'rating' are incompatible.
+    Type 'number | undefined' is not assignable to type 'number'.
+      Type 'undefined' is not assignable to type 'number'.</code></pre>
+      <p>Düzeltme:</p>
+      <pre><code>const { rating: safeRating = 0 }: { rating?: number } = filmAt(0)</code></pre>
+      <p><strong>Output:</strong> <code>T5 suppressed: 4</code> ve <code>T5 fixed: 4</code></p>
+      <p><code>@ts-expect-error</code> sadece burada kullanıldı; assignment'ın izin verdiği tek suppression bu.</p>
+    </div>
+  </details>
+</section>
+
+<section id="props">
+  <h2>React: props ve children</h2>
+  <p>Bir React bileşeni <strong>tek bir nesne</strong> alır: <code>props</code>. Etiketlerin arasına yazdığın içerik de bu nesnenin <code>children</code> alanıdır.</p>
+
+  <details class="card">
+    <summary>P1 — Props tek bir nesnedir</summary>
+    <div class="body">
+      <p><code>function FilmCardA(props)</code> ve <code>function FilmCardB({ film: { title }, children })</code> aynı şeyi yapar.</p>
+      <p><strong>Output:</strong></p>
+      <pre><code>P1 A: &lt;article&gt;&lt;h2&gt;Tokyo Godfathers&lt;/h2&gt;same text&lt;/article&gt;
+P1 B: &lt;article&gt;&lt;h2&gt;Tokyo Godfathers&lt;/h2&gt;same text&lt;/article&gt;</code></pre>
+      <p>İkincisi form 11 (parametrede pattern), form 9 (nested <code>film.title</code>) ve form 5 (<code>children</code>) birleşimidir.</p>
+    </div>
+  </details>
+
+  <details class="card">
+    <summary>P2 — <code>children</code> sadece bir prop</summary>
+    <div class="body">
+      <pre><code>&lt;FilmCardB film={filmAt(1)}&gt;Primetime note&lt;/FilmCardB&gt;
+&lt;FilmCardB film={filmAt(1)} children="Primetime note" /&gt;</code></pre>
+      <p><strong>Output:</strong></p>
+      <pre><code>P2 tag: &lt;article&gt;&lt;h2&gt;Primetime&lt;/h2&gt;Primetime note&lt;/article&gt;
+P2 prop: &lt;article&gt;&lt;h2&gt;Primetime&lt;/h2&gt;Primetime note&lt;/article&gt;</code></pre>
+      <p>İkisini birden verirsen JS'de etiket içeriği kazanır: <code>P2 both: &lt;article&gt;&lt;h2&gt;Primetime&lt;/h2&gt;from tag&lt;/article&gt;</code>. TS bunu <code>TS2710</code> ile reddeder: <em>'children' are specified twice.</em></p>
+    </div>
+  </details>
+
+  <details class="card">
+    <summary>P3 — Children ne olabilir?</summary>
+    <div class="body">
+      <ul>
+        <li>String, number, element, birden çok element: render edilir.</li>
+        <li><code>undefined</code>, <code>null</code>, <code>false</code>: hiçbir şey render etmez.</li>
+        <li>Fonksiyon: React uyarır ve hiçbir şey render etmez.</li>
+      </ul>
+      <p><strong>Örnek output:</strong> <code>P3 string: "&lt;article&gt;&lt;h2&gt;Tokyo Godfathers&lt;/h2&gt;a review&lt;/article&gt;"</code> ve <code>P3 undefined: "&lt;article&gt;&lt;h2&gt;Tokyo Godfathers&lt;/h2&gt;&lt;/article&gt;"</code></p>
+      <p>Fonksiyon için uyarı: <em>Functions are not valid as a React child.</em> <code>ReactNode</code> fonksiyonları içermez.</p>
+    </div>
+  </details>
+
+  <details class="card">
+    <summary>P4 — Children'ı diğer prop'lardan ayırma</summary>
+    <div class="body">
+      <pre><code>function FilmSection({ film, children, ...rest }) {
+  return &lt;section {...rest}&gt;&lt;h2&gt;{film.title}&lt;/h2&gt;{children}&lt;/section&gt;
+}</code></pre>
+      <p><strong>Output:</strong> <code>P4 rest: &lt;section class="card" id="tokyo"&gt;&lt;h2&gt;Tokyo Godfathers&lt;/h2&gt;text&lt;/section&gt;</code></p>
+      <p>Spread sırası kazananı belirler: <code>&lt;section {...rest} className="explicit"&gt;</code> explicit'i tutar; <code>&lt;section className="explicit" {...rest}&gt;</code> rest'ten geleni tutar.</p>
+    </div>
+  </details>
+
+  <details class="card">
+    <summary>P5 — Props mu, children mı?</summary>
+    <div class="body">
+      <p><code>SlotCard</code> <code>header</code> ve <code>footer</code> prop'ları alır; <code>ChildrenCard</code> sadece children alır.</p>
+      <p><strong>Output:</strong></p>
+      <pre><code>P5 slots: &lt;article&gt;&lt;header&gt;&lt;span&gt;Header&lt;/span&gt;&lt;/header&gt;&lt;h2&gt;The Worst Person in the World&lt;/h2&gt;&lt;footer&gt;&lt;span&gt;Footer&lt;/span&gt;&lt;/footer&gt;&lt;/article&gt;
+P5 children: &lt;article&gt;&lt;h2&gt;The Worst Person in the World&lt;/h2&gt;&lt;span&gt;Header&lt;/span&gt;&lt;span&gt;Footer&lt;/span&gt;&lt;/article&gt;</code></pre>
+      <p>Layout sabitse ve her parçanın işi belliyse slot prop'ları kullan. İçeriği ve sırayı çağıran belirleyecekse children kullan.</p>
+    </div>
+  </details>
+
+  <details class="card">
+    <summary>P6 — Default, undefined ve null</summary>
+    <div class="body">
+      <pre><code>P6 default: &lt;span&gt;0&lt;/span&gt;
+P6 undefined: &lt;span&gt;0&lt;/span&gt;
+P6 null: &lt;span&gt;no rating&lt;/span&gt;</code></pre>
+      <p><code>undefined</code> default'u tetikler; <code>null</code> tetiklemez. <code>??</code> ile null'ı ekranda <code>no rating</code> yaptık.</p>
+    </div>
+  </details>
+
+  <details class="card">
+    <summary>P7 — Props ve children tipleri</summary>
+    <div class="body">
+      <ul>
+        <li><code>children?: ReactNode</code>: string, number, element, dizi, null, undefined, false kabul eder; fonksiyon reddeder.</li>
+        <li><code>PropsWithChildren&lt;{ film: Film }&gt;</code>: mevcut props tipine opsiyonel children ekler.</li>
+        <li><code>ComponentProps&lt;'button'&gt;</code>: gerçek button prop'larını verir: type, disabled, onClick, children...</li>
+      </ul>
+      <p><strong>Output:</strong> <code>P7 PropsWithChildren: &lt;article&gt;&lt;h2&gt;Tokyo Godfathers&lt;/h2&gt;child&lt;/article&gt;</code> ve <code>P7 ComponentProps button: &lt;button type="button" disabled=""&gt;Save&lt;/button&gt;</code></p>
+      <p>Derleyicinin reddettikleri: yanlış film tipi (<code>Type 'string' is not assignable to type 'Film'</code>), bilinmeyen <code>title</code> prop'u, fonksiyon child (<code>Type '() =&gt; string' is not assignable to type 'ReactNode'</code>), <code>variant</code> prop'u.</p>
+      <p><strong>key not:</strong> <code>key</code> normal prop değildir. <code>props.key</code> <code>undefined</code> olur; React onu bileşene vermeden önce ayırır. Output: <code>P7 key probe: &lt;span&gt;undefined&lt;/span&gt;</code>.</p>
+    </div>
+  </details>
+</section>
+
+<section id="bonuslar">
+  <h2>Bonus 1–4</h2>
+
+  <details class="card">
+    <summary>Bonus 1 — LaTeX <small>tamam</small></summary>
+    <div class="body">
+      <p>Rehberin tamamı LaTeX'te: <code>latex/field-guide.tex</code> ve <code>latex/field-guide.pdf</code>.</p>
+      <ul>
+        <li>Tectonic 0.17.0 ile derlendi.</li>
+        <li>İlk taslak Pandoc 3.14 ile üretildi; inline kodlar ve tablolar düzeltildi.</li>
+        <li>PDF 13 sayfa; <strong>0 error, 0 overfull hbox</strong>.</li>
+        <li>Kapak, içindekiler, <code>listings</code> kod blokları ve gerçek tablolar var.</li>
+        <li>Komutlar README'de yazılı.</li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="card">
+    <summary>Bonus 2 — Depth <small>tamam</small></summary>
+    <div class="body">
+      <p>Soru: “Array pattern gerçekten neyi çağırıyor?” Cevap: <strong>iterator protokolü</strong>, dizi indeksleri değil.</p>
+      <p><code>js/depth.mjs</code> içinde şunları denedik:</p>
+      <ul>
+        <li>String → karakterler</li>
+        <li><code>Set</code> → sıra korunur, tekrarlar gider</li>
+        <li><code>Map</code> → <code>[key, value]</code> çiftleri</li>
+        <li>Generator</li>
+        <li>Kendi <code>Symbol.iterator</code> nesnemiz</li>
+        <li><code>...rest</code> → iterator'ın kalanı</li>
+        <li>Düz nesne → <code>TypeError: plainObject is not iterable</code></li>
+      </ul>
+      <p>Output:</p>
+      <pre><code>depth string: F i
+depth set: drama comedy
+depth map: Tokyo Godfathers 2003 | Primetime 2026
+depth generator: Tokyo Godfathers 2003
+depth custom: Memories of Murder 2003
+depth rest: 1 2,3
+depth object: TypeError - plainObject is not iterable</code></pre>
+    </div>
+  </details>
+
+  <details class="card">
+    <summary>Bonus 3 — Real code <small>tamam</small></summary>
+    <div class="body">
+      <p>5 gerçek vaka analiz ettik:</p>
+      <ol>
+        <li><code>typescript.js:4872</code> — skip + defaults (form 2, 4)</li>
+        <li><code>typescript.js:4830</code> — rename (form 5, 6)</li>
+        <li><code>typescript.js:188380</code> — rest (form 8)</li>
+        <li><code>typescript.js:136407</code> — loop (form 12)</li>
+        <li>MUI Button <code>Button.js:507-527</code> — React props/children (form 5, 6, 7, 8, 11)</li>
+      </ol>
+      <p>Her vaka için dosya + satır, form ve destructuring'siz hâli README'de var. MUI Button aynı zamanda “destructuring kodu kötüleştiriyor” örneğimiz: ~20 alan, bir sürü default ve rest aynı blokta; okumak zor.</p>
+    </div>
+  </details>
+
+  <details class="card">
+    <summary>Bonus 4 — Git repository <small>tamam</small></summary>
+    <div class="body">
+      <p>Repo public: <a href="https://github.com/olcanaskar/mis233-assignment4">github.com/olcanaskar/mis233-assignment4</a></p>
+      <ul>
+        <li><code>.gitignore</code> var; <code>node_modules</code> dışarıda.</li>
+        <li>Commit geçmişi 15, 16 ve 17 Kasım'a yayıldı.</li>
+        <li>En az 5 anlamlı commit var; toplam 13 civarı.</li>
+        <li>README'de <code>Bonus 4: Git repository</code> başlığı ve link var.</li>
+      </ul>
+    </div>
+  </details>
+</section>
+
+<section id="dosyalar">
+  <h2>Dosyalar ve komutlar</h2>
+  <p>Projenin önemli dosyaları:</p>
+  <ul>
+    <li><code>js/data.mjs</code>, <code>ts/data.ts</code> — 10 film ve <code>Film</code> tipi.</li>
+    <li><code>js/arrays.mjs</code>, <code>js/objects.mjs</code>, <code>js/params.mjs</code> — formlar.</li>
+    <li><code>js/pitfalls.mjs</code> — 5 pitfall.</li>
+    <li><code>js/props.jsx</code>, <code>ts/props.tsx</code> — React P1–P7.</li>
+    <li><code>ts/arrays.ts</code>, <code>ts/objects.ts</code>, <code>ts/params.ts</code>, <code>ts/types.ts</code> — TS örnekleri.</li>
+    <li><code>js/depth.mjs</code> — Bonus 2 deneyleri.</li>
+    <li><code>README.md</code> — asıl field guide.</li>
+    <li><code>output.txt</code> — gerçek çalıştırma çıktısı.</li>
+    <li><code>latex/field-guide.tex</code>, <code>latex/field-guide.pdf</code> — Bonus 1.</li>
+  </ul>
+  <p>Çalıştırma:</p>
+  <pre><code>npm install
+npm run all
+npm run check</code></pre>
+  <p><code>output.txt</code> Windows PowerShell 5.1'de UTF-16 çıktığı için şu komutla üretildi:</p>
+  <pre><code>cmd /c "npm run all &gt; output.txt 2&gt;&amp;1"</code></pre>
+  <p>PDF'i yeniden derlemek için:</p>
+  <pre><code>tectonic latex/field-guide.tex -o latex</code></pre>
+</section>
+
+<section id="test">
+  <h2>Testler ve doğrulama</h2>
+  <ul>
+    <li><code>npm run check</code> → geçti.</li>
+    <li><code>npm run all</code> → exit code 0.</li>
+    <li>Zip temiz bir klasöre açılıp <code>npm install</code> + <code>npm run check</code> + <code>npm run all</code> ile test edildi → geçti.</li>
+    <li>PDF: 13 sayfa, 0 error, 0 overfull hbox.</li>
+    <li>Repo public; README'de tüm bonuslar claim edildi.</li>
+    <li>Zip'te <code>node_modules</code> yok.</li>
+  </ul>
+</section>
+
+<section id="teslim">
+  <h2>Teslim durumu</h2>
+  <div class="ok">
+    <p><strong>Hazır:</strong> Zip dosyası <code>C:\Users\Olcan Askar\Documents\233\assignment4.zip</code> yolunda. İçinde README, output.txt, js, ts ve latex klasörü var.</p>
+  </div>
+  <p>Repo: <a href="https://github.com/olcanaskar/mis233-assignment4">https://github.com/olcanaskar/mis233-assignment4</a></p>
+  <p>PDF: <code>latex/field-guide.pdf</code></p>
+  <p><strong>Tek kalan:</strong> Zip'i Moodle'daki Assignment 4 alanına yüklemek.</p>
+  <p class="small">Not: Bu HTML dosyası okuma notudur; teslim paketinin zorunlu bir parçası değildir. İstersen zip'e de ekleyebiliriz.</p>
+</section>
+
+<section id="sozluk">
+  <h2>Sözlük</h2>
+  <dl>
+    <dt><strong>npm</strong></dt><dd>Projenin ihtiyaç duyduğu hazır paketleri indiren araç.</dd>
+    <dt><strong>TypeScript</strong></dt><dd>JavaScript'e tip ekleyen dil; hataları çalıştırmadan önce yakalar.</dd>
+    <dt><strong><code>npm run check</code></strong></dt><dd>TypeScript'in tip kontrolünü çalıştırır; kod çalışmaz, sadece kontrol edilir.</dd>
+    <dt><strong>React</strong></dt><dd>Arayüzleri bileşenlerle kuran kütüphane.</dd>
+    <dt><strong>props</strong></dt><dd>Bir React bileşeninin aldığı tek nesne; JSX attribute'ları burada.</dd>
+    <dt><strong>children</strong></dt><dd>Etiketlerin arasına yazılan içerik; <code>props</code> içinde özel bir alan.</dd>
+    <dt><strong>iterable</strong></dt><dd><code>Symbol.iterator</code> metodu olan değer; string, dizi, Set, Map, generator...</dd>
+    <dt><strong>tuple</strong></dt><dd>Uzunluğu ve her pozisyonun tipi sabit olan dizi; <code>[number, string]</code>.</dd>
+    <dt><strong><code>@ts-expect-error</code></strong></dt><dd>“Bu satırda hata olacağını biliyorum” işareti; sadece T5'te kullanıldı.</dd>
+    <dt><strong><code>noUncheckedIndexedAccess</code></strong></dt><dd>Dizi indeksinin var olduğunu varsaymayan sıkı TypeScript ayarı.</dd>
+    <dt><strong><code>output.txt</code></strong></dt><dd><code>npm run all</code> çalıştırıldığında oluşan gerçek çıktı; rehberdeki output'ların kanıtı.</dd>
+    <dt><strong>LaTeX / Tectonic</strong></dt><dd>LaTeX, belge dizgi sistemi; Tectonic onu derleyen araç. PDF böyle üretildi.</dd>
+    <dt><strong>Pandoc</strong></dt><dd>Markdown'ı LaTeX gibi biçimlere çeviren araç; ilk taslak için kullanıldı.</dd>
+  </dl>
+</section>
+
+<section id="anlatim">
+  <h2>Hocaya anlatırken</h2>
+  <p>Kısa cevaplar:</p>
+  <ul>
+    <li><strong>Destructuring nedir?</strong> Bir dizi veya nesnenin içindekileri tek satırda, sırayla veya isimle değişkenlere almaktır.</li>
+    <li><strong>Dizi ve nesne farkı?</strong> Dizi pozisyona, nesne isme göre okur.</li>
+    <li><strong>Rest ve spread farkı?</strong> Rest kalanı toplar; spread içindekileri açar. Aynı üç nokta, zıt iş.</li>
+    <li><strong>Default neden null'da çalışmıyor?</strong> Default sadece <code>undefined</code> için; <code>null</code> bilinçli bir değer.</li>
+    <li><strong>Props nedir?</strong> Bileşenin aldığı tek nesne. <strong>Children nedir?</strong> O nesnenin, etiketlerin arasındaki içeriği taşıyan alanı.</li>
+    <li><strong>Neden bu veri?</strong> Letterboxd'daki son 10 film; gerçek, kişisel ve alan çeşitliliği olan bir set.</li>
+    <li><strong>TypeScript ne ekliyor?</strong> Tipler ve çalıştırmadan önce kontrol; örneğin <code>Film | undefined</code>, <code>ReactNode</code>.</li>
+  </ul>
+  <p class="small">Teslimden önce README'yi ve bu sayfayı bir kez baştan sona oku; özellikle “My own log” kısmındaki hataları kendi cümlelerinle anlatabilmelisin.</p>
+</section>
+
+</main>
+
+<footer>
+  <p><strong>Abdullah Olcan Askar</strong> · 2024502180 · MIS 233 Assignment 4</p>
+  <p>Okuma notu · 17 Kasım 2026 · Repo: <a href="https://github.com/olcanaskar/mis233-assignment4">olcanaskar/mis233-assignment4</a></p>
+</footer>
+
+</div>
+
+<a class="top" href="#top" aria-label="Başa dön">↑</a>
+
+<script>
+  (function () {
+    var cards = Array.prototype.slice.call(document.querySelectorAll('details.card'));
+    var button = document.getElementById('toggle');
+    if (!button) return;
+    button.addEventListener('click', function () {
+      var anyClosed = cards.some(function (card) { return !card.open; });
+      cards.forEach(function (card) { card.open = anyClosed; });
+      button.textContent = anyClosed ? 'Tüm bölümleri kapat' : 'Tüm bölümleri aç';
+    });
+  })();
+</script>
+</body>
+</html>
